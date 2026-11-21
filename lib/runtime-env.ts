@@ -1,29 +1,24 @@
 /**
  * Runtime environment access that works in both:
- * - Cloudflare Workers (`env` from `cloudflare:workers`)
- * - Node.js local dev (`process.env`, loaded from .env)
+ * - Cloudflare Workers (`nodejs_compat` mirrors vars/secrets onto `process.env`)
+ * - Node.js local dev (loaded from `.env` by `vite.config.ts` / scripts)
  *
- * The dynamic import is intentional so Node never tries to resolve the
- * Workers-only module and Cloudflare keeps it external.
+ * IMPORTANT: do not use a top-level `await import("cloudflare:workers")` here.
+ * Cloudflare Workers cannot finish evaluating a lazily-imported module that
+ * contains a top-level await. Every route segment that touches the database
+ * (`/dashboard`, `/admin`, auth, ...) imports this module, so the Worker would
+ * hang forever and Cloudflare would return "Error 1101: Worker threw
+ * exception / code had hung".
  */
 type RuntimeEnv = Record<string, unknown>;
 
-let resolvedEnv: RuntimeEnv = {};
+const processEnv: RuntimeEnv =
+  typeof process !== "undefined" && process.env
+    ? (process.env as unknown as RuntimeEnv)
+    : {};
 
-try {
-  const moduleName = "cloudflare:" + "workers";
-  const mod = (await import(/* @vite-ignore */ moduleName)) as {
-    env?: RuntimeEnv;
-  };
-  if (mod.env) resolvedEnv = mod.env;
-} catch {
-  // Not running on Cloudflare — fall back to process.env.
-}
-
-export const runtimeEnv = resolvedEnv;
+export const runtimeEnv = processEnv;
 
 export function envValue<T = unknown>(key: string): T | undefined {
-  const fromRuntime = runtimeEnv[key];
-  if (fromRuntime !== undefined) return fromRuntime as T;
-  return process.env[key] as T | undefined;
+  return processEnv[key] as T | undefined;
 }
