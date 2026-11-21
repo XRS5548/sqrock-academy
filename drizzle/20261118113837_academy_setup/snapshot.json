@@ -1,0 +1,3732 @@
+{
+  "type": "diff",
+  "version": "9",
+  "dialect": "postgres",
+  "id": "2c0192fb-5365-4758-80cd-cc30ccda987e",
+  "prevIds": [
+    "8080aecd-f49e-4400-95c1-bce1c1aa0d96"
+  ],
+  "footprints": [
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "attachment"
+      ],
+      "writes": [
+        "s|tbl|public.attachment",
+        "n|tbl|public.attachment",
+        "e|tbl|public.attachment",
+        "n|rel|public.attachment",
+        "n|type|public.attachment",
+        "n|rel|public.attachment_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "certificate"
+      ],
+      "writes": [
+        "s|tbl|public.certificate",
+        "n|tbl|public.certificate",
+        "e|tbl|public.certificate",
+        "n|rel|public.certificate",
+        "n|type|public.certificate",
+        "n|rel|public.certificate_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "course"
+      ],
+      "writes": [
+        "s|tbl|public.course",
+        "n|tbl|public.course",
+        "e|tbl|public.course",
+        "n|rel|public.course",
+        "n|type|public.course",
+        "n|rel|public.course_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "enrollment"
+      ],
+      "writes": [
+        "s|tbl|public.enrollment",
+        "n|tbl|public.enrollment",
+        "e|tbl|public.enrollment",
+        "n|rel|public.enrollment",
+        "n|type|public.enrollment",
+        "n|rel|public.enrollment_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "exam"
+      ],
+      "writes": [
+        "s|tbl|public.exam",
+        "n|tbl|public.exam",
+        "e|tbl|public.exam",
+        "n|rel|public.exam",
+        "n|type|public.exam",
+        "n|rel|public.exam_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "exam_attempt"
+      ],
+      "writes": [
+        "s|tbl|public.exam_attempt",
+        "n|tbl|public.exam_attempt",
+        "e|tbl|public.exam_attempt",
+        "n|rel|public.exam_attempt",
+        "n|type|public.exam_attempt",
+        "n|rel|public.exam_attempt_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "exam_question"
+      ],
+      "writes": [
+        "s|tbl|public.exam_question",
+        "n|tbl|public.exam_question",
+        "e|tbl|public.exam_question",
+        "n|rel|public.exam_question",
+        "n|type|public.exam_question",
+        "n|rel|public.exam_question_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "job"
+      ],
+      "writes": [
+        "s|tbl|public.job",
+        "n|tbl|public.job",
+        "e|tbl|public.job",
+        "n|rel|public.job",
+        "n|type|public.job",
+        "n|rel|public.job_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "lesson"
+      ],
+      "writes": [
+        "s|tbl|public.lesson",
+        "n|tbl|public.lesson",
+        "e|tbl|public.lesson",
+        "n|rel|public.lesson",
+        "n|type|public.lesson",
+        "n|rel|public.lesson_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "lesson_progress"
+      ],
+      "writes": [
+        "s|tbl|public.lesson_progress",
+        "n|tbl|public.lesson_progress",
+        "e|tbl|public.lesson_progress",
+        "n|rel|public.lesson_progress",
+        "n|type|public.lesson_progress",
+        "n|rel|public.lesson_progress_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "add_column",
+      "statementTarget": [
+        "column",
+        "public",
+        "user",
+        "role"
+      ],
+      "writes": [
+        "s|col|public.user.role",
+        "n|col|public.user.role",
+        "e|col|public.user.role"
+      ],
+      "reads": [
+        "n|tbl|public.user",
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "add_column",
+      "statementTarget": [
+        "column",
+        "public",
+        "user",
+        "headline"
+      ],
+      "writes": [
+        "s|col|public.user.headline",
+        "n|col|public.user.headline",
+        "e|col|public.user.headline"
+      ],
+      "reads": [
+        "n|tbl|public.user",
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "attachment",
+        "attachment_course_idx"
+      ],
+      "writes": [
+        "s|idx|public.attachment_course_idx",
+        "n|idx|public.attachment_course_idx",
+        "e|idx|public.attachment_course_idx",
+        "n|rel|public.attachment_course_idx"
+      ],
+      "reads": [
+        "n|tbl|public.attachment",
+        "n|sch|public",
+        "n|col|public.attachment.course_id"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "certificate",
+        "certificate_no_idx"
+      ],
+      "writes": [
+        "s|idx|public.certificate_no_idx",
+        "n|idx|public.certificate_no_idx",
+        "e|idx|public.certificate_no_idx",
+        "n|rel|public.certificate_no_idx"
+      ],
+      "reads": [
+        "n|tbl|public.certificate",
+        "n|sch|public",
+        "n|col|public.certificate.certificate_no"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "certificate",
+        "certificate_user_course_idx"
+      ],
+      "writes": [
+        "s|idx|public.certificate_user_course_idx",
+        "n|idx|public.certificate_user_course_idx",
+        "e|idx|public.certificate_user_course_idx",
+        "n|rel|public.certificate_user_course_idx"
+      ],
+      "reads": [
+        "n|tbl|public.certificate",
+        "n|sch|public",
+        "n|col|public.certificate.user_id",
+        "n|col|public.certificate.course_id"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "course",
+        "course_slug_idx"
+      ],
+      "writes": [
+        "s|idx|public.course_slug_idx",
+        "n|idx|public.course_slug_idx",
+        "e|idx|public.course_slug_idx",
+        "n|rel|public.course_slug_idx"
+      ],
+      "reads": [
+        "n|tbl|public.course",
+        "n|sch|public",
+        "n|col|public.course.slug"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "course",
+        "course_status_idx"
+      ],
+      "writes": [
+        "s|idx|public.course_status_idx",
+        "n|idx|public.course_status_idx",
+        "e|idx|public.course_status_idx",
+        "n|rel|public.course_status_idx"
+      ],
+      "reads": [
+        "n|tbl|public.course",
+        "n|sch|public",
+        "n|col|public.course.status"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "course",
+        "course_category_idx"
+      ],
+      "writes": [
+        "s|idx|public.course_category_idx",
+        "n|idx|public.course_category_idx",
+        "e|idx|public.course_category_idx",
+        "n|rel|public.course_category_idx"
+      ],
+      "reads": [
+        "n|tbl|public.course",
+        "n|sch|public",
+        "n|col|public.course.category"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "enrollment",
+        "enrollment_user_course_idx"
+      ],
+      "writes": [
+        "s|idx|public.enrollment_user_course_idx",
+        "n|idx|public.enrollment_user_course_idx",
+        "e|idx|public.enrollment_user_course_idx",
+        "n|rel|public.enrollment_user_course_idx"
+      ],
+      "reads": [
+        "n|tbl|public.enrollment",
+        "n|sch|public",
+        "n|col|public.enrollment.user_id",
+        "n|col|public.enrollment.course_id"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "exam",
+        "exam_course_idx"
+      ],
+      "writes": [
+        "s|idx|public.exam_course_idx",
+        "n|idx|public.exam_course_idx",
+        "e|idx|public.exam_course_idx",
+        "n|rel|public.exam_course_idx"
+      ],
+      "reads": [
+        "n|tbl|public.exam",
+        "n|sch|public",
+        "n|col|public.exam.course_id"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "exam_attempt",
+        "attempt_user_exam_idx"
+      ],
+      "writes": [
+        "s|idx|public.attempt_user_exam_idx",
+        "n|idx|public.attempt_user_exam_idx",
+        "e|idx|public.attempt_user_exam_idx",
+        "n|rel|public.attempt_user_exam_idx"
+      ],
+      "reads": [
+        "n|tbl|public.exam_attempt",
+        "n|sch|public",
+        "n|col|public.exam_attempt.user_id",
+        "n|col|public.exam_attempt.exam_id"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "exam_question",
+        "question_exam_idx"
+      ],
+      "writes": [
+        "s|idx|public.question_exam_idx",
+        "n|idx|public.question_exam_idx",
+        "e|idx|public.question_exam_idx",
+        "n|rel|public.question_exam_idx"
+      ],
+      "reads": [
+        "n|tbl|public.exam_question",
+        "n|sch|public",
+        "n|col|public.exam_question.exam_id"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "job",
+        "job_status_idx"
+      ],
+      "writes": [
+        "s|idx|public.job_status_idx",
+        "n|idx|public.job_status_idx",
+        "e|idx|public.job_status_idx",
+        "n|rel|public.job_status_idx"
+      ],
+      "reads": [
+        "n|tbl|public.job",
+        "n|sch|public",
+        "n|col|public.job.status"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "job",
+        "job_type_idx"
+      ],
+      "writes": [
+        "s|idx|public.job_type_idx",
+        "n|idx|public.job_type_idx",
+        "e|idx|public.job_type_idx",
+        "n|rel|public.job_type_idx"
+      ],
+      "reads": [
+        "n|tbl|public.job",
+        "n|sch|public",
+        "n|col|public.job.type"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "lesson",
+        "lesson_course_idx"
+      ],
+      "writes": [
+        "s|idx|public.lesson_course_idx",
+        "n|idx|public.lesson_course_idx",
+        "e|idx|public.lesson_course_idx",
+        "n|rel|public.lesson_course_idx"
+      ],
+      "reads": [
+        "n|tbl|public.lesson",
+        "n|sch|public",
+        "n|col|public.lesson.course_id"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "lesson_progress",
+        "progress_user_lesson_idx"
+      ],
+      "writes": [
+        "s|idx|public.progress_user_lesson_idx",
+        "n|idx|public.progress_user_lesson_idx",
+        "e|idx|public.progress_user_lesson_idx",
+        "n|rel|public.progress_user_lesson_idx"
+      ],
+      "reads": [
+        "n|tbl|public.lesson_progress",
+        "n|sch|public",
+        "n|col|public.lesson_progress.user_id",
+        "n|col|public.lesson_progress.lesson_id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "attachment"
+      ],
+      "writes": [
+        "s|fk|public.attachment.attachment_course_id_course_id_fkey",
+        "n|fk|public.attachment.attachment_course_id_course_id_fkey",
+        "e|fk|public.attachment.attachment_course_id_course_id_fkey",
+        "n|con|public.attachment.attachment_course_id_course_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.attachment",
+        "n|sch|public",
+        "n|tbl|public.course",
+        "n|sch|public",
+        "n|col|public.attachment.course_id",
+        "n|col|public.course.id",
+        "e|uniqueness|public.course.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "attachment"
+      ],
+      "writes": [
+        "s|fk|public.attachment.attachment_lesson_id_lesson_id_fkey",
+        "n|fk|public.attachment.attachment_lesson_id_lesson_id_fkey",
+        "e|fk|public.attachment.attachment_lesson_id_lesson_id_fkey",
+        "n|con|public.attachment.attachment_lesson_id_lesson_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.attachment",
+        "n|sch|public",
+        "n|tbl|public.lesson",
+        "n|sch|public",
+        "n|col|public.attachment.lesson_id",
+        "n|col|public.lesson.id",
+        "e|uniqueness|public.lesson.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "certificate"
+      ],
+      "writes": [
+        "s|fk|public.certificate.certificate_user_id_user_id_fkey",
+        "n|fk|public.certificate.certificate_user_id_user_id_fkey",
+        "e|fk|public.certificate.certificate_user_id_user_id_fkey",
+        "n|con|public.certificate.certificate_user_id_user_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.certificate",
+        "n|sch|public",
+        "n|tbl|public.user",
+        "n|sch|public",
+        "n|col|public.certificate.user_id",
+        "n|col|public.user.id",
+        "e|uniqueness|public.user.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "certificate"
+      ],
+      "writes": [
+        "s|fk|public.certificate.certificate_course_id_course_id_fkey",
+        "n|fk|public.certificate.certificate_course_id_course_id_fkey",
+        "e|fk|public.certificate.certificate_course_id_course_id_fkey",
+        "n|con|public.certificate.certificate_course_id_course_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.certificate",
+        "n|sch|public",
+        "n|tbl|public.course",
+        "n|sch|public",
+        "n|col|public.certificate.course_id",
+        "n|col|public.course.id",
+        "e|uniqueness|public.course.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "certificate"
+      ],
+      "writes": [
+        "s|fk|public.certificate.certificate_attempt_id_exam_attempt_id_fkey",
+        "n|fk|public.certificate.certificate_attempt_id_exam_attempt_id_fkey",
+        "e|fk|public.certificate.certificate_attempt_id_exam_attempt_id_fkey",
+        "n|con|public.certificate.certificate_attempt_id_exam_attempt_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.certificate",
+        "n|sch|public",
+        "n|tbl|public.exam_attempt",
+        "n|sch|public",
+        "n|col|public.certificate.attempt_id",
+        "n|col|public.exam_attempt.id",
+        "e|uniqueness|public.exam_attempt.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "course"
+      ],
+      "writes": [
+        "s|fk|public.course.course_created_by_user_id_fkey",
+        "n|fk|public.course.course_created_by_user_id_fkey",
+        "e|fk|public.course.course_created_by_user_id_fkey",
+        "n|con|public.course.course_created_by_user_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.course",
+        "n|sch|public",
+        "n|tbl|public.user",
+        "n|sch|public",
+        "n|col|public.course.created_by",
+        "n|col|public.user.id",
+        "e|uniqueness|public.user.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "enrollment"
+      ],
+      "writes": [
+        "s|fk|public.enrollment.enrollment_user_id_user_id_fkey",
+        "n|fk|public.enrollment.enrollment_user_id_user_id_fkey",
+        "e|fk|public.enrollment.enrollment_user_id_user_id_fkey",
+        "n|con|public.enrollment.enrollment_user_id_user_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.enrollment",
+        "n|sch|public",
+        "n|tbl|public.user",
+        "n|sch|public",
+        "n|col|public.enrollment.user_id",
+        "n|col|public.user.id",
+        "e|uniqueness|public.user.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "enrollment"
+      ],
+      "writes": [
+        "s|fk|public.enrollment.enrollment_course_id_course_id_fkey",
+        "n|fk|public.enrollment.enrollment_course_id_course_id_fkey",
+        "e|fk|public.enrollment.enrollment_course_id_course_id_fkey",
+        "n|con|public.enrollment.enrollment_course_id_course_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.enrollment",
+        "n|sch|public",
+        "n|tbl|public.course",
+        "n|sch|public",
+        "n|col|public.enrollment.course_id",
+        "n|col|public.course.id",
+        "e|uniqueness|public.course.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "exam"
+      ],
+      "writes": [
+        "s|fk|public.exam.exam_course_id_course_id_fkey",
+        "n|fk|public.exam.exam_course_id_course_id_fkey",
+        "e|fk|public.exam.exam_course_id_course_id_fkey",
+        "n|con|public.exam.exam_course_id_course_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.exam",
+        "n|sch|public",
+        "n|tbl|public.course",
+        "n|sch|public",
+        "n|col|public.exam.course_id",
+        "n|col|public.course.id",
+        "e|uniqueness|public.course.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "exam_attempt"
+      ],
+      "writes": [
+        "s|fk|public.exam_attempt.exam_attempt_exam_id_exam_id_fkey",
+        "n|fk|public.exam_attempt.exam_attempt_exam_id_exam_id_fkey",
+        "e|fk|public.exam_attempt.exam_attempt_exam_id_exam_id_fkey",
+        "n|con|public.exam_attempt.exam_attempt_exam_id_exam_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.exam_attempt",
+        "n|sch|public",
+        "n|tbl|public.exam",
+        "n|sch|public",
+        "n|col|public.exam_attempt.exam_id",
+        "n|col|public.exam.id",
+        "e|uniqueness|public.exam.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "exam_attempt"
+      ],
+      "writes": [
+        "s|fk|public.exam_attempt.exam_attempt_user_id_user_id_fkey",
+        "n|fk|public.exam_attempt.exam_attempt_user_id_user_id_fkey",
+        "e|fk|public.exam_attempt.exam_attempt_user_id_user_id_fkey",
+        "n|con|public.exam_attempt.exam_attempt_user_id_user_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.exam_attempt",
+        "n|sch|public",
+        "n|tbl|public.user",
+        "n|sch|public",
+        "n|col|public.exam_attempt.user_id",
+        "n|col|public.user.id",
+        "e|uniqueness|public.user.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "exam_attempt"
+      ],
+      "writes": [
+        "s|fk|public.exam_attempt.exam_attempt_course_id_course_id_fkey",
+        "n|fk|public.exam_attempt.exam_attempt_course_id_course_id_fkey",
+        "e|fk|public.exam_attempt.exam_attempt_course_id_course_id_fkey",
+        "n|con|public.exam_attempt.exam_attempt_course_id_course_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.exam_attempt",
+        "n|sch|public",
+        "n|tbl|public.course",
+        "n|sch|public",
+        "n|col|public.exam_attempt.course_id",
+        "n|col|public.course.id",
+        "e|uniqueness|public.course.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "exam_question"
+      ],
+      "writes": [
+        "s|fk|public.exam_question.exam_question_exam_id_exam_id_fkey",
+        "n|fk|public.exam_question.exam_question_exam_id_exam_id_fkey",
+        "e|fk|public.exam_question.exam_question_exam_id_exam_id_fkey",
+        "n|con|public.exam_question.exam_question_exam_id_exam_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.exam_question",
+        "n|sch|public",
+        "n|tbl|public.exam",
+        "n|sch|public",
+        "n|col|public.exam_question.exam_id",
+        "n|col|public.exam.id",
+        "e|uniqueness|public.exam.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "job"
+      ],
+      "writes": [
+        "s|fk|public.job.job_posted_by_user_id_fkey",
+        "n|fk|public.job.job_posted_by_user_id_fkey",
+        "e|fk|public.job.job_posted_by_user_id_fkey",
+        "n|con|public.job.job_posted_by_user_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.job",
+        "n|sch|public",
+        "n|tbl|public.user",
+        "n|sch|public",
+        "n|col|public.job.posted_by",
+        "n|col|public.user.id",
+        "e|uniqueness|public.user.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "job"
+      ],
+      "writes": [
+        "s|fk|public.job.job_approved_by_user_id_fkey",
+        "n|fk|public.job.job_approved_by_user_id_fkey",
+        "e|fk|public.job.job_approved_by_user_id_fkey",
+        "n|con|public.job.job_approved_by_user_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.job",
+        "n|sch|public",
+        "n|tbl|public.user",
+        "n|sch|public",
+        "n|col|public.job.approved_by",
+        "n|col|public.user.id",
+        "e|uniqueness|public.user.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "lesson"
+      ],
+      "writes": [
+        "s|fk|public.lesson.lesson_course_id_course_id_fkey",
+        "n|fk|public.lesson.lesson_course_id_course_id_fkey",
+        "e|fk|public.lesson.lesson_course_id_course_id_fkey",
+        "n|con|public.lesson.lesson_course_id_course_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.lesson",
+        "n|sch|public",
+        "n|tbl|public.course",
+        "n|sch|public",
+        "n|col|public.lesson.course_id",
+        "n|col|public.course.id",
+        "e|uniqueness|public.course.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "lesson_progress"
+      ],
+      "writes": [
+        "s|fk|public.lesson_progress.lesson_progress_user_id_user_id_fkey",
+        "n|fk|public.lesson_progress.lesson_progress_user_id_user_id_fkey",
+        "e|fk|public.lesson_progress.lesson_progress_user_id_user_id_fkey",
+        "n|con|public.lesson_progress.lesson_progress_user_id_user_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.lesson_progress",
+        "n|sch|public",
+        "n|tbl|public.user",
+        "n|sch|public",
+        "n|col|public.lesson_progress.user_id",
+        "n|col|public.user.id",
+        "e|uniqueness|public.user.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "lesson_progress"
+      ],
+      "writes": [
+        "s|fk|public.lesson_progress.lesson_progress_course_id_course_id_fkey",
+        "n|fk|public.lesson_progress.lesson_progress_course_id_course_id_fkey",
+        "e|fk|public.lesson_progress.lesson_progress_course_id_course_id_fkey",
+        "n|con|public.lesson_progress.lesson_progress_course_id_course_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.lesson_progress",
+        "n|sch|public",
+        "n|tbl|public.course",
+        "n|sch|public",
+        "n|col|public.lesson_progress.course_id",
+        "n|col|public.course.id",
+        "e|uniqueness|public.course.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "lesson_progress"
+      ],
+      "writes": [
+        "s|fk|public.lesson_progress.lesson_progress_lesson_id_lesson_id_fkey",
+        "n|fk|public.lesson_progress.lesson_progress_lesson_id_lesson_id_fkey",
+        "e|fk|public.lesson_progress.lesson_progress_lesson_id_lesson_id_fkey",
+        "n|con|public.lesson_progress.lesson_progress_lesson_id_lesson_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.lesson_progress",
+        "n|sch|public",
+        "n|tbl|public.lesson",
+        "n|sch|public",
+        "n|col|public.lesson_progress.lesson_id",
+        "n|col|public.lesson.id",
+        "e|uniqueness|public.lesson.id"
+      ]
+    }
+  ],
+  "deltas": [
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "name": "attachment",
+        "isRlsEnabled": false,
+        "entityType": "tables"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "name": "certificate",
+        "isRlsEnabled": false,
+        "entityType": "tables"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "name": "course",
+        "isRlsEnabled": false,
+        "entityType": "tables"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "name": "enrollment",
+        "isRlsEnabled": false,
+        "entityType": "tables"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "name": "exam",
+        "isRlsEnabled": false,
+        "entityType": "tables"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "name": "exam_attempt",
+        "isRlsEnabled": false,
+        "entityType": "tables"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "name": "exam_question",
+        "isRlsEnabled": false,
+        "entityType": "tables"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "name": "job",
+        "isRlsEnabled": false,
+        "entityType": "tables"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "name": "lesson",
+        "isRlsEnabled": false,
+        "entityType": "tables"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "name": "lesson_progress",
+        "isRlsEnabled": false,
+        "entityType": "tables"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "attachment",
+        "name": "id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "attachment",
+        "name": "course_id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "attachment",
+        "name": "lesson_id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "attachment",
+        "name": "name",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "attachment",
+        "name": "url",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "attachment",
+        "name": "file_type",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "attachment",
+        "name": "file_size",
+        "type": "integer",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "attachment",
+        "name": "created_at",
+        "type": "timestamp",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "now()",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "certificate",
+        "name": "id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "certificate",
+        "name": "certificate_no",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "certificate",
+        "name": "user_id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "certificate",
+        "name": "course_id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "certificate",
+        "name": "attempt_id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "certificate",
+        "name": "score",
+        "type": "integer",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "0",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "certificate",
+        "name": "issued_at",
+        "type": "timestamp",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "now()",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "slug",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "title",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "subtitle",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "description",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "''",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "category",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "'Development'",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "level",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "'Beginner'",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "language",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "'English'",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "thumbnail",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "trailer_url",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "price",
+        "type": "integer",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "0",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "is_free",
+        "type": "boolean",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "false",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "status",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "'draft'",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "duration_minutes",
+        "type": "integer",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "0",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "instructor_name",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "'Sqrock Academy'",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "instructor_role",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": "'Lead Instructor'",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "instructor_image",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "certificate_enabled",
+        "type": "boolean",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "true",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "exam_pass_percent",
+        "type": "integer",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "70",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "exam_lock_hours",
+        "type": "integer",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "48",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "outcomes",
+        "type": "jsonb",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": "'[]'",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "requirements",
+        "type": "jsonb",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": "'[]'",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "tags",
+        "type": "jsonb",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": "'[]'",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "enrollments",
+        "type": "integer",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "0",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "rating",
+        "type": "integer",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "48",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "created_by",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "created_at",
+        "type": "timestamp",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "now()",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "updated_at",
+        "type": "timestamp",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "now()",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "enrollment",
+        "name": "id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "enrollment",
+        "name": "user_id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "enrollment",
+        "name": "course_id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "enrollment",
+        "name": "status",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "'active'",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "enrollment",
+        "name": "enrolled_at",
+        "type": "timestamp",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "now()",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "enrollment",
+        "name": "completed_at",
+        "type": "timestamp",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam",
+        "name": "id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam",
+        "name": "course_id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam",
+        "name": "title",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "'Final certification exam'",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam",
+        "name": "description",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "''",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam",
+        "name": "pass_percent",
+        "type": "integer",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "70",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam",
+        "name": "lock_hours",
+        "type": "integer",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "48",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam",
+        "name": "time_limit_minutes",
+        "type": "integer",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "30",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam",
+        "name": "created_at",
+        "type": "timestamp",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "now()",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam_attempt",
+        "name": "id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam_attempt",
+        "name": "exam_id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam_attempt",
+        "name": "user_id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam_attempt",
+        "name": "course_id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam_attempt",
+        "name": "score",
+        "type": "integer",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "0",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam_attempt",
+        "name": "passed",
+        "type": "boolean",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "false",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam_attempt",
+        "name": "answers",
+        "type": "jsonb",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": "'[]'",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam_attempt",
+        "name": "submitted_at",
+        "type": "timestamp",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "now()",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam_question",
+        "name": "id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam_question",
+        "name": "exam_id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam_question",
+        "name": "question",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam_question",
+        "name": "options",
+        "type": "jsonb",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "'[]'",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam_question",
+        "name": "correct_index",
+        "type": "integer",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "0",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam_question",
+        "name": "explanation",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam_question",
+        "name": "position",
+        "type": "integer",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "0",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "title",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "company",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "company_logo",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "company_website",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "type",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "'job'",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "location",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "'Remote'",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "work_mode",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "'Remote'",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "category",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "'Engineering'",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "experience",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": "'Fresher'",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "salary",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "description",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "''",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "apply_url",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "apply_email",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "contact_email",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "status",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "'pending'",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "featured",
+        "type": "boolean",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "false",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "posted_by",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "approved_by",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "created_at",
+        "type": "timestamp",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "now()",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "expires_at",
+        "type": "timestamp",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson",
+        "name": "id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson",
+        "name": "course_id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson",
+        "name": "title",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson",
+        "name": "description",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "''",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson",
+        "name": "video_type",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "'youtube'",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson",
+        "name": "video_url",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "''",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson",
+        "name": "video_key",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson",
+        "name": "duration_minutes",
+        "type": "integer",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "0",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson",
+        "name": "position",
+        "type": "integer",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "0",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson",
+        "name": "is_preview",
+        "type": "boolean",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "false",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson",
+        "name": "created_at",
+        "type": "timestamp",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "now()",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson_progress",
+        "name": "id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson_progress",
+        "name": "user_id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson_progress",
+        "name": "course_id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson_progress",
+        "name": "lesson_id",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson_progress",
+        "name": "completed",
+        "type": "boolean",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "false",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson_progress",
+        "name": "completed_at",
+        "type": "timestamp",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson_progress",
+        "name": "updated_at",
+        "type": "timestamp",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "now()",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "user",
+        "name": "role",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "'student'",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "user",
+        "name": "headline",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": false,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "attachment",
+        "name": "attachment_course_idx",
+        "nameExplicit": true,
+        "columns": [
+          {
+            "value": "course_id",
+            "isExpression": false,
+            "asc": true,
+            "nullsFirst": false,
+            "opclass": null
+          }
+        ],
+        "isUnique": false,
+        "where": null,
+        "with": "",
+        "method": "btree",
+        "concurrently": false,
+        "entityType": "indexes"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "certificate",
+        "name": "certificate_no_idx",
+        "nameExplicit": true,
+        "columns": [
+          {
+            "value": "certificate_no",
+            "isExpression": false,
+            "asc": true,
+            "nullsFirst": false,
+            "opclass": null
+          }
+        ],
+        "isUnique": true,
+        "where": null,
+        "with": "",
+        "method": "btree",
+        "concurrently": false,
+        "entityType": "indexes"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "certificate",
+        "name": "certificate_user_course_idx",
+        "nameExplicit": true,
+        "columns": [
+          {
+            "value": "user_id",
+            "isExpression": false,
+            "asc": true,
+            "nullsFirst": false,
+            "opclass": null
+          },
+          {
+            "value": "course_id",
+            "isExpression": false,
+            "asc": true,
+            "nullsFirst": false,
+            "opclass": null
+          }
+        ],
+        "isUnique": true,
+        "where": null,
+        "with": "",
+        "method": "btree",
+        "concurrently": false,
+        "entityType": "indexes"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "course_slug_idx",
+        "nameExplicit": true,
+        "columns": [
+          {
+            "value": "slug",
+            "isExpression": false,
+            "asc": true,
+            "nullsFirst": false,
+            "opclass": null
+          }
+        ],
+        "isUnique": true,
+        "where": null,
+        "with": "",
+        "method": "btree",
+        "concurrently": false,
+        "entityType": "indexes"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "course_status_idx",
+        "nameExplicit": true,
+        "columns": [
+          {
+            "value": "status",
+            "isExpression": false,
+            "asc": true,
+            "nullsFirst": false,
+            "opclass": null
+          }
+        ],
+        "isUnique": false,
+        "where": null,
+        "with": "",
+        "method": "btree",
+        "concurrently": false,
+        "entityType": "indexes"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "course_category_idx",
+        "nameExplicit": true,
+        "columns": [
+          {
+            "value": "category",
+            "isExpression": false,
+            "asc": true,
+            "nullsFirst": false,
+            "opclass": null
+          }
+        ],
+        "isUnique": false,
+        "where": null,
+        "with": "",
+        "method": "btree",
+        "concurrently": false,
+        "entityType": "indexes"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "enrollment",
+        "name": "enrollment_user_course_idx",
+        "nameExplicit": true,
+        "columns": [
+          {
+            "value": "user_id",
+            "isExpression": false,
+            "asc": true,
+            "nullsFirst": false,
+            "opclass": null
+          },
+          {
+            "value": "course_id",
+            "isExpression": false,
+            "asc": true,
+            "nullsFirst": false,
+            "opclass": null
+          }
+        ],
+        "isUnique": true,
+        "where": null,
+        "with": "",
+        "method": "btree",
+        "concurrently": false,
+        "entityType": "indexes"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam",
+        "name": "exam_course_idx",
+        "nameExplicit": true,
+        "columns": [
+          {
+            "value": "course_id",
+            "isExpression": false,
+            "asc": true,
+            "nullsFirst": false,
+            "opclass": null
+          }
+        ],
+        "isUnique": true,
+        "where": null,
+        "with": "",
+        "method": "btree",
+        "concurrently": false,
+        "entityType": "indexes"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam_attempt",
+        "name": "attempt_user_exam_idx",
+        "nameExplicit": true,
+        "columns": [
+          {
+            "value": "user_id",
+            "isExpression": false,
+            "asc": true,
+            "nullsFirst": false,
+            "opclass": null
+          },
+          {
+            "value": "exam_id",
+            "isExpression": false,
+            "asc": true,
+            "nullsFirst": false,
+            "opclass": null
+          }
+        ],
+        "isUnique": false,
+        "where": null,
+        "with": "",
+        "method": "btree",
+        "concurrently": false,
+        "entityType": "indexes"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam_question",
+        "name": "question_exam_idx",
+        "nameExplicit": true,
+        "columns": [
+          {
+            "value": "exam_id",
+            "isExpression": false,
+            "asc": true,
+            "nullsFirst": false,
+            "opclass": null
+          }
+        ],
+        "isUnique": false,
+        "where": null,
+        "with": "",
+        "method": "btree",
+        "concurrently": false,
+        "entityType": "indexes"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "job_status_idx",
+        "nameExplicit": true,
+        "columns": [
+          {
+            "value": "status",
+            "isExpression": false,
+            "asc": true,
+            "nullsFirst": false,
+            "opclass": null
+          }
+        ],
+        "isUnique": false,
+        "where": null,
+        "with": "",
+        "method": "btree",
+        "concurrently": false,
+        "entityType": "indexes"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "job_type_idx",
+        "nameExplicit": true,
+        "columns": [
+          {
+            "value": "type",
+            "isExpression": false,
+            "asc": true,
+            "nullsFirst": false,
+            "opclass": null
+          }
+        ],
+        "isUnique": false,
+        "where": null,
+        "with": "",
+        "method": "btree",
+        "concurrently": false,
+        "entityType": "indexes"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson",
+        "name": "lesson_course_idx",
+        "nameExplicit": true,
+        "columns": [
+          {
+            "value": "course_id",
+            "isExpression": false,
+            "asc": true,
+            "nullsFirst": false,
+            "opclass": null
+          }
+        ],
+        "isUnique": false,
+        "where": null,
+        "with": "",
+        "method": "btree",
+        "concurrently": false,
+        "entityType": "indexes"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson_progress",
+        "name": "progress_user_lesson_idx",
+        "nameExplicit": true,
+        "columns": [
+          {
+            "value": "user_id",
+            "isExpression": false,
+            "asc": true,
+            "nullsFirst": false,
+            "opclass": null
+          },
+          {
+            "value": "lesson_id",
+            "isExpression": false,
+            "asc": true,
+            "nullsFirst": false,
+            "opclass": null
+          }
+        ],
+        "isUnique": true,
+        "where": null,
+        "with": "",
+        "method": "btree",
+        "concurrently": false,
+        "entityType": "indexes"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "attachment",
+        "name": "attachment_course_id_course_id_fkey",
+        "nameExplicit": false,
+        "columns": [
+          "course_id"
+        ],
+        "schemaTo": "public",
+        "tableTo": "course",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "CASCADE",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "attachment",
+        "name": "attachment_lesson_id_lesson_id_fkey",
+        "nameExplicit": false,
+        "columns": [
+          "lesson_id"
+        ],
+        "schemaTo": "public",
+        "tableTo": "lesson",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "CASCADE",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "certificate",
+        "name": "certificate_user_id_user_id_fkey",
+        "nameExplicit": false,
+        "columns": [
+          "user_id"
+        ],
+        "schemaTo": "public",
+        "tableTo": "user",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "CASCADE",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "certificate",
+        "name": "certificate_course_id_course_id_fkey",
+        "nameExplicit": false,
+        "columns": [
+          "course_id"
+        ],
+        "schemaTo": "public",
+        "tableTo": "course",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "CASCADE",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "certificate",
+        "name": "certificate_attempt_id_exam_attempt_id_fkey",
+        "nameExplicit": false,
+        "columns": [
+          "attempt_id"
+        ],
+        "schemaTo": "public",
+        "tableTo": "exam_attempt",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "SET NULL",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "course_created_by_user_id_fkey",
+        "nameExplicit": false,
+        "columns": [
+          "created_by"
+        ],
+        "schemaTo": "public",
+        "tableTo": "user",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "SET NULL",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "enrollment",
+        "name": "enrollment_user_id_user_id_fkey",
+        "nameExplicit": false,
+        "columns": [
+          "user_id"
+        ],
+        "schemaTo": "public",
+        "tableTo": "user",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "CASCADE",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "enrollment",
+        "name": "enrollment_course_id_course_id_fkey",
+        "nameExplicit": false,
+        "columns": [
+          "course_id"
+        ],
+        "schemaTo": "public",
+        "tableTo": "course",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "CASCADE",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam",
+        "name": "exam_course_id_course_id_fkey",
+        "nameExplicit": false,
+        "columns": [
+          "course_id"
+        ],
+        "schemaTo": "public",
+        "tableTo": "course",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "CASCADE",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam_attempt",
+        "name": "exam_attempt_exam_id_exam_id_fkey",
+        "nameExplicit": false,
+        "columns": [
+          "exam_id"
+        ],
+        "schemaTo": "public",
+        "tableTo": "exam",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "CASCADE",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam_attempt",
+        "name": "exam_attempt_user_id_user_id_fkey",
+        "nameExplicit": false,
+        "columns": [
+          "user_id"
+        ],
+        "schemaTo": "public",
+        "tableTo": "user",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "CASCADE",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam_attempt",
+        "name": "exam_attempt_course_id_course_id_fkey",
+        "nameExplicit": false,
+        "columns": [
+          "course_id"
+        ],
+        "schemaTo": "public",
+        "tableTo": "course",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "CASCADE",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam_question",
+        "name": "exam_question_exam_id_exam_id_fkey",
+        "nameExplicit": false,
+        "columns": [
+          "exam_id"
+        ],
+        "schemaTo": "public",
+        "tableTo": "exam",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "CASCADE",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "job_posted_by_user_id_fkey",
+        "nameExplicit": false,
+        "columns": [
+          "posted_by"
+        ],
+        "schemaTo": "public",
+        "tableTo": "user",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "SET NULL",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "job_approved_by_user_id_fkey",
+        "nameExplicit": false,
+        "columns": [
+          "approved_by"
+        ],
+        "schemaTo": "public",
+        "tableTo": "user",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "SET NULL",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson",
+        "name": "lesson_course_id_course_id_fkey",
+        "nameExplicit": false,
+        "columns": [
+          "course_id"
+        ],
+        "schemaTo": "public",
+        "tableTo": "course",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "CASCADE",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson_progress",
+        "name": "lesson_progress_user_id_user_id_fkey",
+        "nameExplicit": false,
+        "columns": [
+          "user_id"
+        ],
+        "schemaTo": "public",
+        "tableTo": "user",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "CASCADE",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson_progress",
+        "name": "lesson_progress_course_id_course_id_fkey",
+        "nameExplicit": false,
+        "columns": [
+          "course_id"
+        ],
+        "schemaTo": "public",
+        "tableTo": "course",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "CASCADE",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson_progress",
+        "name": "lesson_progress_lesson_id_lesson_id_fkey",
+        "nameExplicit": false,
+        "columns": [
+          "lesson_id"
+        ],
+        "schemaTo": "public",
+        "tableTo": "lesson",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "CASCADE",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "attachment",
+        "name": "attachment_pkey",
+        "columns": [
+          "id"
+        ],
+        "nameExplicit": false,
+        "entityType": "pks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "certificate",
+        "name": "certificate_pkey",
+        "columns": [
+          "id"
+        ],
+        "nameExplicit": false,
+        "entityType": "pks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "course_pkey",
+        "columns": [
+          "id"
+        ],
+        "nameExplicit": false,
+        "entityType": "pks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "enrollment",
+        "name": "enrollment_pkey",
+        "columns": [
+          "id"
+        ],
+        "nameExplicit": false,
+        "entityType": "pks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam",
+        "name": "exam_pkey",
+        "columns": [
+          "id"
+        ],
+        "nameExplicit": false,
+        "entityType": "pks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam_attempt",
+        "name": "exam_attempt_pkey",
+        "columns": [
+          "id"
+        ],
+        "nameExplicit": false,
+        "entityType": "pks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "exam_question",
+        "name": "exam_question_pkey",
+        "columns": [
+          "id"
+        ],
+        "nameExplicit": false,
+        "entityType": "pks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "job",
+        "name": "job_pkey",
+        "columns": [
+          "id"
+        ],
+        "nameExplicit": false,
+        "entityType": "pks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson",
+        "name": "lesson_pkey",
+        "columns": [
+          "id"
+        ],
+        "nameExplicit": false,
+        "entityType": "pks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lesson_progress",
+        "name": "lesson_progress_pkey",
+        "columns": [
+          "id"
+        ],
+        "nameExplicit": false,
+        "entityType": "pks"
+      }
+    }
+  ]
+}
