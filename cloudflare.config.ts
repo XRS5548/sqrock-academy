@@ -3,7 +3,7 @@ import { bindings, defineConfig, defineWorker } from "cf/config";
 
 export default defineConfig({
   worker: defineWorker({
-    name: "sqrockacademy",
+    name: "sqrock-academy",
     entrypoint: "vinext/server/fetch-handler",
     compatibilityDate: "2026-11-18",
     compatibilityFlags: ["nodejs_compat"],
