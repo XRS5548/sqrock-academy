@@ -10,6 +10,7 @@ import {
   BriefcaseIcon,
   CertificateIcon,
   ChartPieSliceIcon,
+  FilePptIcon,
   GearIcon,
   ListIcon,
   SignOutIcon,
@@ -34,6 +35,7 @@ const adminNav = [
   { href: "/admin", label: "Overview", icon: ChartPieSliceIcon },
   { href: "/admin/courses", label: "Courses", icon: BookOpenIcon },
   { href: "/admin/jobs", label: "Job approvals", icon: BriefcaseIcon },
+  { href: "/admin/ppt", label: "PPT to PDF", icon: FilePptIcon },
   { href: "/admin/students", label: "Students", icon: UsersIcon },
 ];
 

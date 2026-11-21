@@ -19,6 +19,8 @@ export type LessonView = {
   attachments: AttachmentView[];
 };
 
+export type CourseMode = "live" | "recorded";
+
 export type CourseView = {
   id: string;
   slug: string;
@@ -32,11 +34,16 @@ export type CourseView = {
   price: number;
   isFree: boolean;
   status: string;
+  mode: CourseMode;
   durationMinutes: number;
   instructorName: string;
   instructorRole: string;
   instructorImage: string | null;
   certificateEnabled: boolean;
+  certificateTemplateName: string | null;
+  certificateTemplateUrl: string | null;
+  certificateTemplateKey: string | null;
+  certificatePlaceholders: string[];
   examPassPercent: number;
   examLockHours: number;
   outcomes: string[];

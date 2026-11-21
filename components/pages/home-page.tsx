@@ -17,6 +17,7 @@ import {
   MedalIcon,
   MegaphoneIcon,
   QuotesIcon,
+  SealCheckIcon,
   ShieldCheckIcon,
   SparkleIcon,
   StarIcon,
@@ -49,6 +50,9 @@ const categoryIcons = {
   Business: ChartLineUpIcon,
   Marketing: MegaphoneIcon,
 } as const;
+
+// Temporarily disabled: platform numbers are placeholder data for now.
+const showStats = false;
 
 export async function HomePage() {
   const [courses, jobs] = await Promise.all([
@@ -158,8 +162,12 @@ export async function HomePage() {
                 </span>
               </div>
               {heroCourse && (
-                <>
-                  <div className="overflow-hidden rounded-lg border border-border">
+                <Link
+                  href={`/courses/${heroCourse.slug}`}
+                  aria-label={`Open ${heroCourse.title}`}
+                  className="group block rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                >
+                  <div className="overflow-hidden rounded-lg border border-border transition-colors group-hover:border-primary/40">
                     <CourseCover
                       title={heroCourse.title}
                       category={heroCourse.category}
@@ -172,7 +180,7 @@ export async function HomePage() {
                       <span>{heroCourse.category}</span>
                       <span>{formatDuration(heroCourse.durationMinutes)}</span>
                     </div>
-                    <h3 className="mt-1 font-heading text-lg font-semibold leading-snug tracking-tight">
+                    <h3 className="mt-1 font-heading text-lg font-semibold leading-snug tracking-tight transition-colors group-hover:text-primary">
                       {heroCourse.title}
                     </h3>
                     <div className="mt-4 flex items-center justify-between text-[11px] font-medium">
@@ -184,7 +192,7 @@ export async function HomePage() {
                     <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-muted">
                       <div className="h-full w-[38%] rounded-full bg-primary" />
                     </div>
-                    <div className="mt-4 flex items-center justify-between rounded-lg border border-border bg-muted/40 px-3 py-2.5">
+                    <div className="mt-4 flex items-center justify-between rounded-lg border border-border bg-muted/40 px-3 py-2.5 transition-colors group-hover:border-primary/40 group-hover:bg-primary/[0.06]">
                       <span className="inline-flex items-center gap-2 text-[11px] font-medium">
                         <CheckCircleIcon
                           size={16}
@@ -193,17 +201,18 @@ export async function HomePage() {
                         />
                         Lesson 3 · Conditionals
                       </span>
-                      <span className="text-[10px] text-muted-foreground">
+                      <span className="inline-flex items-center gap-1 text-[10px] text-primary">
                         Resume
+                        <ArrowRightIcon size={11} weight="bold" />
                       </span>
                     </div>
                   </div>
-                </>
+                </Link>
               )}
             </div>
 
             {/* Floating certificate */}
-            <div className="absolute -bottom-8 -left-3 hidden w-52 rotate-[-3deg] rounded-xl border border-border bg-card p-3 shadow-lg sm:block">
+            <div className="pointer-events-none absolute -bottom-8 -left-3 hidden w-52 rotate-[-3deg] rounded-xl border border-border bg-card p-3 shadow-lg sm:block">
               <div className="flex items-center gap-2">
                 <span className="flex size-8 items-center justify-center rounded-full bg-primary/10 text-primary">
                   <CertificateIcon size={16} weight="duotone" />
@@ -222,7 +231,7 @@ export async function HomePage() {
             </div>
 
             {/* Floating exam */}
-            <div className="absolute -right-2 top-24 hidden w-44 rotate-[3deg] rounded-xl border border-border bg-card p-3 shadow-lg md:block">
+            <div className="pointer-events-none absolute -right-2 top-24 hidden w-44 rotate-[3deg] rounded-xl border border-border bg-card p-3 shadow-lg md:block">
               <div className="flex items-center gap-2">
                 <span className="flex size-7 items-center justify-center rounded-md bg-amber-500/10 text-amber-600">
                   <ShieldCheckIcon size={14} weight="duotone" />
@@ -240,20 +249,22 @@ export async function HomePage() {
         </div>
 
         {/* Stats strip */}
-        <div className="relative border-t border-border bg-background/60 backdrop-blur">
-          <div className="mx-auto grid w-full max-w-7xl grid-cols-2 divide-border px-4 sm:px-6 lg:grid-cols-4 lg:divide-x lg:px-8">
-            {stats.map((stat) => (
-              <div key={stat.label} className="px-2 py-5 lg:px-8 lg:py-6">
-                <p className="font-heading text-2xl font-semibold tracking-tight">
-                  {stat.value}
-                </p>
-                <p className="mt-1 text-[11px] text-muted-foreground">
-                  {stat.label}
-                </p>
-              </div>
-            ))}
+        {showStats && (
+          <div className="relative border-t border-border bg-background/60 backdrop-blur">
+            <div className="mx-auto grid w-full max-w-7xl grid-cols-2 divide-border px-4 sm:px-6 lg:grid-cols-4 lg:divide-x lg:px-8">
+              {stats.map((stat) => (
+                <div key={stat.label} className="px-2 py-5 lg:px-8 lg:py-6">
+                  <p className="font-heading text-2xl font-semibold tracking-tight">
+                    {stat.value}
+                  </p>
+                  <p className="mt-1 text-[11px] text-muted-foreground">
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </section>
 
       {/* Categories */}
@@ -409,65 +420,32 @@ export async function HomePage() {
 
           <div className="relative mx-auto w-full max-w-md">
             <div className="absolute -inset-4 rotate-[-2deg] rounded-3xl border border-border bg-background" />
-            <div className="relative rounded-2xl border border-border bg-card p-6 shadow-[0_30px_60px_-40px_rgba(15,23,42,0.4)]">
-              <div className="flex items-center justify-between border-b border-border pb-4">
-                <div className="flex items-center gap-2">
-                  <span className="flex size-8 items-center justify-center rounded-md bg-primary/10 text-primary">
-                    <CertificateIcon size={17} weight="duotone" />
-                  </span>
-                  <div>
-                    <p className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
-                      Certificate of completion
-                    </p>
-                    <p className="text-xs font-semibold">Sqrock Academy</p>
-                  </div>
-                </div>
-                <Badge className="h-5 bg-emerald-600/10 text-[9px] text-emerald-700">
-                  Verified
-                </Badge>
-              </div>
-              <div className="py-8 text-center">
-                <p className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-                  This certifies that
+            <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-8 text-center shadow-[0_30px_60px_-40px_rgba(15,23,42,0.4)]">
+              <div className="pointer-events-none absolute inset-0 bg-grid opacity-40" />
+              <div className="pointer-events-none absolute -right-12 -top-12 size-44 rounded-full bg-primary/[0.07] blur-2xl" />
+              <div className="relative">
+                <span className="mx-auto flex size-12 items-center justify-center rounded-full border border-border bg-primary/10 text-primary">
+                  <SealCheckIcon size={24} weight="duotone" />
+                </span>
+                <h3 className="mt-4 font-heading text-lg font-semibold tracking-tight">
+                  Verify a certificate
+                </h3>
+                <p className="mx-auto mt-2 max-w-xs text-[11px] leading-5 text-muted-foreground">
+                  Received a Sqrock Academy certificate? Enter its certificate ID
+                  to confirm it was issued by us and that the final exam was
+                  passed.
                 </p>
-                <p className="mt-2 font-heading text-xl font-semibold tracking-tight">
-                  Ananya Sharma
+                <Button
+                  size="lg"
+                  className="mt-6 h-10 rounded-lg px-5 text-xs"
+                  render={<Link href="/certificates" />}
+                >
+                  <SealCheckIcon data-icon="inline-start" weight="fill" />
+                  Go to verify certificate
+                </Button>
+                <p className="mt-3 text-[10px] text-muted-foreground">
+                  Anyone can verify — no login needed.
                 </p>
-                <p className="mt-1 text-[11px] text-muted-foreground">
-                  has successfully completed
-                </p>
-                <p className="mt-2 font-heading text-base font-semibold">
-                  Python for Absolute Beginners
-                </p>
-                <div className="mt-5 inline-flex items-center gap-3 rounded-lg border border-border bg-muted/40 px-4 py-2">
-                  <div>
-                    <p className="text-[9px] uppercase tracking-wider text-muted-foreground">
-                      Final score
-                    </p>
-                    <p className="text-sm font-semibold text-emerald-700">86%</p>
-                  </div>
-                  <div className="h-7 w-px bg-border" />
-                  <div>
-                    <p className="text-[9px] uppercase tracking-wider text-muted-foreground">
-                      Certificate ID
-                    </p>
-                    <p className="font-mono text-[10px]">SQ-2026-01482</p>
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center justify-between border-t border-border pt-4">
-                <div>
-                  <p className="font-heading text-[10px] font-semibold">
-                    Aarav Mehta
-                  </p>
-                  <p className="text-[9px] text-muted-foreground">
-                    Lead Instructor
-                  </p>
-                </div>
-                <div className="text-right text-[9px] text-muted-foreground">
-                  <p>Issued 18 Nov 2026</p>
-                  <p>Verify at sqrock.cloud</p>
-                </div>
               </div>
             </div>
           </div>

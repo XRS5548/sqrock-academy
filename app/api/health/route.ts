@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import { sql } from "drizzle-orm";
 import { db, hasDatabase } from "@/db";
-import { envValue, runtimeEnv } from "@/lib/runtime-env";
+import { envValue } from "@/lib/runtime-env";
+import { isStorageConfigured } from "@/lib/r2";
+import { isRazorpayConfigured } from "@/lib/razorpay";
 
 export async function GET() {
   let databaseReachable = false;
@@ -54,6 +56,7 @@ export async function GET() {
     "course",
     "lesson",
     "enrollment",
+    "ppt_template",
   ];
   const missingTables = requiredTables.filter((table) => !tables.includes(table));
 
@@ -62,7 +65,8 @@ export async function GET() {
     ok: true,
     database: hasDatabase,
     databaseReachable,
-    storage: Boolean(runtimeEnv.BUCKET),
+    storage: isStorageConfigured(),
+    payments: isRazorpayConfigured(),
     auth: Boolean(envValue<string>("BETTER_AUTH_SECRET")),
     ...(isDev
       ? {

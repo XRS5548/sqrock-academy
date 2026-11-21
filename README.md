@@ -21,13 +21,14 @@ Built with [vinext](https://github.com/cloudflare/vinext) (Next.js-style App Rou
 - My courses with progress bars
 - Course player (YouTube unlisted embeds or R2 video), attachments and lesson completion
 - Final exam with timer, pass mark, 48-hour retry lock and certificate unlock
-- Certificates list + share links
+- Certificates list + share links + dynamic certificate PDF download from the course PPTX template
 - Jobs board and profile settings
 
 ### Admin dashboard (`/admin`)
 - Overview with catalogue, student, enrolment and job stats
-- Course editor: TipTap rich text, lessons, YouTube/R2 video, attachments, thumbnail uploads, exam questions, draft/publish
+- Course editor: TipTap rich text, lessons, YouTube/R2 video, attachments, thumbnail uploads, exam questions, certificate PPTX template, draft/publish
 - Job approvals (approve/reject/delete) and student role management
+- PPT to PDF: upload `.pptx` templates, auto-detect `[Placeholders]`, fill them in a popup and download a browser-generated PDF (PPT metadata is stored in Postgres, files in R2)
 
 ## Setup
 
@@ -38,7 +39,18 @@ DATABASE_URL=postgresql://...
 BETTER_AUTH_SECRET=your-long-random-secret
 # Optional
 BETTER_AUTH_URL=http://localhost:5173
-R2_PUBLIC_URL=https://files.your-domain.com
+# Cloudflare R2 (S3 API)
+R2_ACCOUNT_ID=your-cloudflare-account-id
+R2_ACCESS_KEY_ID=your-r2-access-key-id
+R2_SECRET_ACCESS_KEY=your-r2-secret-access-key
+R2_BUCKET_NAME=sqrock-academy
+R2_PUBLIC_URL=https://pub-xxxxxxxx.r2.dev
+# Razorpay (test or live)
+RAZORPAY_MODE=test
+RAZORPAY_TEST_KEY_ID=rzp_test_...
+RAZORPAY_TEST_KEY_SECRET=...
+RAZORPAY_LIVE_KEY_ID=rzp_live_...
+RAZORPAY_LIVE_KEY_SECRET=...
 SEED_ADMIN_EMAIL=admin@sqrock.cloud
 SEED_ADMIN_PASSWORD=Admin@12345
 ```
@@ -76,18 +88,82 @@ npm run deploy
 
 ## Cloudflare R2 uploads
 
-Admin uploads are handled by `/api/upload` and streamed through `/api/files/[...key]` when no public domain is set.
+Course thumbnails, lesson videos, attachments and PPT templates all use the same `/api/upload` route and are served through `/api/files/[...key]` when no public domain is set. Storage is configured entirely through environment variables (Cloudflare R2 S3 API), so the same setup works in local dev and on Workers.
 
-1. Create an R2 bucket in the Cloudflare dashboard.
-2. Add a binding named `BUCKET` to the Worker in `cloudflare.config.ts`.
-3. Optionally set `R2_PUBLIC_URL` to the bucket's public/custom domain for direct URLs.
+1. **Create a bucket**: Cloudflare Dashboard → R2 → Create bucket → name `sqrock-academy` (or your own name).
+2. **Create an API token**: R2 → Manage R2 API Tokens → Create API token → permission **Object Read & Write** → scope it to your bucket. Copy the **Access Key ID**, **Secret Access Key** and your **Account ID**.
+3. Add them to `.env`:
 
-If R2 is not configured, uploads return a clear error and attachments can still be added as external links.
+```env
+R2_ACCOUNT_ID=...
+R2_ACCESS_KEY_ID=...
+R2_SECRET_ACCESS_KEY=...
+R2_BUCKET_NAME=sqrock-academy
+```
+
+4. **Optional public URL**: open the bucket → Settings → Public access → enable the `r2.dev` URL or connect a custom domain. Copy that URL into `R2_PUBLIC_URL`. Without it, files are streamed through `/api/files/...` (works, but uses Worker bandwidth).
+5. For deployment add these as Worker secrets/vars (`.env` values are used by `cloudflare.config.ts` at deploy time, or set them with `npx wrangler secret put R2_SECRET_ACCESS_KEY` etc.):
+
+```env
+R2_ACCOUNT_ID
+R2_ACCESS_KEY_ID
+R2_SECRET_ACCESS_KEY
+R2_BUCKET_NAME
+R2_PUBLIC_URL
+```
+
+If R2 is not configured, local dev falls back to `public/uploads/` (gitignored). In production, uploads return a clear configuration error instead of failing silently.
+
+### R2 troubleshooting
+
+- **`TLS handshake failed` / `fetch failed`**: usually a wrong `R2_ACCOUNT_ID`. Use the 32-character **Account ID** from the Cloudflare dashboard — not the Access Key ID, an API token or a full URL. Also make sure R2 is enabled on the account.
+- **EU/jurisdiction bucket**: set `R2_ENDPOINT=https://<account-id>.eu.r2.cloudflarestorage.com` (or the matching jurisdiction endpoint).
+- **`403` on upload**: the R2 API token is missing **Object Read & Write** permission for that bucket.
+- **`404`**: `R2_BUCKET_NAME` does not match the bucket name exactly.
+
+> The PPT template list needs the new `ppt_template` table. Run `npm run db:push` after pulling this change.
+
+## Razorpay payments
+
+Paid course enrolment uses Razorpay Checkout. No extra package or server is needed: the server creates the order through the Razorpay REST API, the browser opens Checkout, and the payment signature is verified server-side before enrolment.
+
+1. Create a Razorpay account and copy the **Test** key id/secret from Dashboard → Settings → API Keys.
+2. Add them to `.env`:
+
+```env
+RAZORPAY_MODE=test
+RAZORPAY_TEST_KEY_ID=rzp_test_...
+RAZORPAY_TEST_KEY_SECRET=...
+```
+
+3. Restart `npm run dev`, open a paid course and click **Enrol for ₹…**.
+4. Use Razorpay test checkout details (test card: `4111 1111 1111 1111`, any future expiry, any CVV, OTP `1234` if prompted).
+5. After successful verification the student is enrolled automatically.
+
+Before going live, replace the test keys with **Live** keys and set `RAZORPAY_MODE=live`. The same env vars must be available to the deployed Worker.
+
+## Certificate templates
+
+Each course can have its own certificate `.pptx` template, uploaded from the course editor.
+
+Mandatory placeholders (certificate issuing enabled):
+
+| Placeholder | Value |
+| --- | --- |
+| `[Name]` | Student name |
+| `[Course]` | Course title |
+| `[Certificate ID]` | Unique certificate number |
+| `[Date]` | Issue date |
+| `[Score]` | Exam score (optional) |
+| `[Instructor]` | Instructor name (optional) |
+| `[Email]` | Student email (optional) |
+
+Placeholders are matched ignoring case, spaces and punctuation, so `[CertificateID]` also works, but using the exact names above is recommended. After a student passes the exam, the certificate page generates the filled PDF entirely in the browser using the stored R2 template.
 
 ## Notes
 
 - Without a reachable database the public site gracefully falls back to demo content; dashboards require a working database and login.
-- Online payments are not wired yet. Paid course enrolments show a payment-link contact flow (`academy@sqrock.cloud`). Add Razorpay/Stripe in `enrollInCourse` when ready.
+- Paid course enrolment uses Razorpay Checkout; configure `RAZORPAY_MODE` plus the matching test/live keys in `.env`.
 - SQL migration files live in `drizzle/`; regenerate with `npm run db:generate`.
 - The mobile app is targeted for **10 December** per the marketing content.
 

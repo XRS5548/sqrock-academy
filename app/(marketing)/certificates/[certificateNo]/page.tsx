@@ -3,7 +3,9 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { ArrowLeftIcon, CheckCircleIcon, EnvelopeSimpleIcon } from "@phosphor-icons/react/ssr";
 import { CertificateCard } from "@/components/certificate/certificate-card";
+import { CertificatePptPreview } from "@/components/certificate/certificate-ppt-preview";
 import { PrintButton } from "@/components/certificate/print-button";
+import { CertificateDownloadButton } from "@/components/certificate/certificate-download-button";
 import { getCertificateByNo } from "@/lib/queries";
 import { site } from "@/lib/demo-data";
 
@@ -25,6 +27,29 @@ export default async function CertificatePage({
   const certificate = await getCertificateByNo(certificateNo);
   if (!certificate) notFound();
 
+  const issuedOn = new Date(certificate.certificate.issuedAt);
+  const issuedOnLabel = issuedOn.toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
+  const templateUrl = certificate.course.certificateTemplateKey
+    ? `/api/files/${certificate.course.certificateTemplateKey}`
+    : certificate.course.certificateTemplateUrl;
+
+  // Values used by both the on-page preview and the downloaded PDF, so the
+  // preview always matches the uploaded template exactly.
+  const templateValues: Record<string, string> = {
+    Name: certificate.student.name,
+    Course: certificate.course.title,
+    "Certificate ID": certificate.certificate.certificateNo,
+    Date: issuedOnLabel,
+    Score: `${certificate.certificate.score}%`,
+    Instructor: certificate.course.instructorName,
+    Email: certificate.student.email,
+  };
+
   return (
     <div className="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
@@ -38,27 +63,38 @@ export default async function CertificatePage({
           <span className="inline-flex items-center gap-1.5 text-[10px] font-medium text-emerald-700">
             <CheckCircleIcon size={13} weight="fill" /> Verified
           </span>
+          {templateUrl && (
+            <CertificateDownloadButton
+              templateUrl={templateUrl}
+              fileName={`certificate-${certificate.certificate.certificateNo}`}
+              label="Download PDF"
+              className="print:hidden"
+              values={templateValues}
+            />
+          )}
           <PrintButton />
         </div>
       </div>
 
-      <CertificateCard
-        studentName={certificate.student.name}
-        courseTitle={certificate.course.title}
-        certificateNo={certificate.certificate.certificateNo}
-        score={certificate.certificate.score}
-        issuedAt={certificate.certificate.issuedAt}
-        instructorName={certificate.course.instructorName}
-      />
+      {templateUrl ? (
+        <CertificatePptPreview
+          templateUrl={templateUrl}
+          values={templateValues}
+        />
+      ) : (
+        <CertificateCard
+          studentName={certificate.student.name}
+          courseTitle={certificate.course.title}
+          certificateNo={certificate.certificate.certificateNo}
+          score={certificate.certificate.score}
+          issuedAt={certificate.certificate.issuedAt}
+          instructorName={certificate.course.instructorName}
+        />
+      )}
 
       <div className="mt-5 flex flex-col items-center justify-between gap-2 text-[10px] text-muted-foreground sm:flex-row">
         <p>
-          Issued to {certificate.student.name} ·{" "}
-          {new Date(certificate.certificate.issuedAt).toLocaleDateString("en-IN", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          })}
+          Issued to {certificate.student.name} · {issuedOnLabel}
         </p>
         <a
           href={`mailto:${site.email}`}

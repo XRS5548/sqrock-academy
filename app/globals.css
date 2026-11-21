@@ -48,6 +48,11 @@ body {
   margin: 0;
 }
 
+/* Keep layout width stable when a scrollbar appears (certificate previews) */
+html {
+  scrollbar-gutter: stable;
+}
+
 @layer base {
   a {
     color: inherit;
@@ -265,6 +270,16 @@ body {
   float: left;
   height: 0;
   pointer-events: none;
+}
+
+/* PPTX certificate preview (pptx-preview renders its own wrapper) */
+.pptx-certificate .pptx-preview-wrapper {
+  background: #ffffff !important;
+  margin: 0 !important;
+}
+
+.pptx-certificate .pptx-preview-slide-wrapper {
+  margin: 0 !important;
 }
 
 /* Subtle grid used behind hero sections */

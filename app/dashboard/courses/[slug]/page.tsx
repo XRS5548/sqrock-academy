@@ -72,6 +72,9 @@ export default async function CoursePlayerPage({
 
   const allDone =
     course.lessons.length > 0 && completedCount >= course.lessons.length;
+  // Live courses keep the final exam locked until the instructor finishes the
+  // course and converts it to a recorded course.
+  const examOpen = allDone && course.mode !== "live";
 
   return (
     <div className="space-y-5">
@@ -83,9 +86,16 @@ export default async function CoursePlayerPage({
           >
             <ArrowLeftIcon size={11} /> My courses
           </Link>
-          <h1 className="mt-1 font-heading text-lg font-semibold leading-tight tracking-tight">
-            {course.title}
-          </h1>
+          <div className="mt-1 flex flex-wrap items-center gap-2">
+            <h1 className="font-heading text-lg font-semibold leading-tight tracking-tight">
+              {course.title}
+            </h1>
+            {course.mode === "live" && (
+              <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/15 px-2 py-0.5 text-[9px] font-semibold text-amber-700">
+                Live · new lessons added
+              </span>
+            )}
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-28">
@@ -236,12 +246,12 @@ export default async function CoursePlayerPage({
                   <span
                     className={cn(
                       "flex size-10 shrink-0 items-center justify-center rounded-lg",
-                      allDone
+                      examOpen
                         ? "bg-primary/10 text-primary"
                         : "bg-muted text-muted-foreground",
                     )}
                   >
-                    {allDone ? (
+                    {examOpen ? (
                       <SealCheckIcon size={20} weight="duotone" />
                     ) : (
                       <LockKeyIcon size={19} />
@@ -249,23 +259,27 @@ export default async function CoursePlayerPage({
                   </span>
                   <div>
                     <p className="text-xs font-semibold">
-                      {allDone
+                      {examOpen
                         ? "All lessons complete — take the final exam"
-                        : "Final exam locked"}
+                        : course.mode === "live"
+                          ? "Final exam opens when the course is complete"
+                          : "Final exam locked"}
                     </p>
                     <p className="mt-1 max-w-md text-[11px] leading-5 text-muted-foreground">
-                      {allDone
+                      {examOpen
                         ? `Score ${exam?.passPercent ?? course.examPassPercent}% or more to unlock your certificate.`
-                        : `Finish all ${course.lessons.length} lessons to unlock the exam. You've completed ${completedCount}.`}
+                        : course.mode === "live"
+                          ? "This is a live course and new lessons are still being added. The instructor will close the course once every lesson is published, and the exam will unlock for you then."
+                          : `Finish all ${course.lessons.length} lessons to unlock the exam. You've completed ${completedCount}.`}
                     </p>
                   </div>
                 </div>
                 <Button
                   size="lg"
                   className="h-9 shrink-0 rounded-lg px-3 text-xs"
-                  disabled={!allDone}
+                  disabled={!examOpen}
                   render={
-                    allDone ? (
+                    examOpen ? (
                       <Link href={`/dashboard/courses/${course.slug}/exam`} />
                     ) : undefined
                   }

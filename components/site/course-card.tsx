@@ -45,6 +45,11 @@ export function CourseCard({
           thumbnail={course.thumbnail}
         />
         <div className="absolute left-3 top-3 flex gap-1.5">
+          {course.mode === "live" && (
+            <Badge className="h-5 rounded-full bg-amber-500 px-2 text-[10px] text-white">
+              Live
+            </Badge>
+          )}
           {(course.isFree || course.price === 0) && (
             <Badge className="h-5 rounded-full bg-emerald-600 px-2 text-[10px] text-white">
               Free

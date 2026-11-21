@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   ArrowLeftIcon,
+  BroadcastIcon,
   CaretDownIcon,
   CaretUpIcon,
   CheckCircleIcon,
@@ -26,6 +27,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { RichTextEditor } from "@/components/admin/rich-text-editor";
 import { FileUpload } from "@/components/admin/file-upload";
+import { CertificateTemplateUploader } from "@/components/admin/certificate-template-uploader";
 import { saveCourse, saveExamQuestions, type CourseInput, type LessonInput } from "@/lib/actions";
 import {
   validateCourse,
@@ -101,6 +103,7 @@ export function CourseEditor({
     price: 0,
     isFree: false,
     status: "draft",
+    mode: "recorded",
     durationMinutes: 0,
     instructorName: "Sqrock Academy",
     instructorRole: "Instructor",
@@ -110,6 +113,10 @@ export function CourseEditor({
     requirements: [],
     tags: [],
     certificateEnabled: true,
+    certificateTemplateName: null,
+    certificateTemplateUrl: null,
+    certificateTemplateKey: null,
+    certificatePlaceholders: [],
     examPassPercent: 70,
     examLockHours: 48,
     lessons: [],
@@ -167,6 +174,10 @@ export function CourseEditor({
         !validation.course.examPassPercent &&
         !validation.course.examLockHours &&
         Object.keys(validation.questions).length === 0,
+    },
+    {
+      label: "Certificate template",
+      ok: !validation.course.certificateTemplate,
     },
   ];
 
@@ -586,6 +597,109 @@ export function CourseEditor({
                 }
               />
             </div>
+          </section>
+
+          {/* Delivery mode */}
+          <section className="rounded-xl border border-border bg-background p-5">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <h2 className="font-heading text-sm font-semibold">
+                  Course type
+                </h2>
+                <p className="mt-0.5 max-w-2xl text-[10px] leading-5 text-muted-foreground">
+                  Start as <strong>Live</strong> when you upload lessons as the
+                  batch runs. Once the course is finished, switch to{" "}
+                  <strong>Recorded</strong> and save. Students keep their
+                  progress, certificates and access either way.
+                </p>
+              </div>
+              <Badge
+                variant="outline"
+                className={cn(
+                  "h-5 rounded-full px-2 text-[9px]",
+                  form.mode === "live"
+                    ? "border-amber-500/30 bg-amber-500/10 text-amber-700"
+                    : "border-border text-muted-foreground",
+                )}
+              >
+                {form.mode === "live" ? "Live" : "Recorded"}
+              </Badge>
+            </div>
+
+            <div className="mt-4 grid gap-2 sm:grid-cols-2">
+              {[
+                {
+                  value: "live" as const,
+                  title: "Live (ongoing)",
+                  icon: BroadcastIcon,
+                  body: "Lessons are added as you record them. Students see a Live badge, and the final exam stays locked until you mark the course complete.",
+                },
+                {
+                  value: "recorded" as const,
+                  title: "Recorded (self-paced)",
+                  icon: VideoCameraIcon,
+                  body: "The full course is available now. The final exam unlocks once a student finishes every lesson.",
+                },
+              ].map((option) => {
+                const selected = form.mode === option.value;
+                const Icon = option.icon;
+                return (
+                  <button
+                    key={option.value}
+                    type="button"
+                    onClick={() => setField("mode", option.value)}
+                    className={cn(
+                      "rounded-lg border p-3 text-left transition-colors",
+                      selected
+                        ? "border-primary bg-primary/[0.05]"
+                        : "border-border hover:bg-muted/40",
+                    )}
+                  >
+                    <span className="flex items-center gap-2 text-[11px] font-semibold">
+                      <Icon
+                        size={15}
+                        weight={selected ? "fill" : "regular"}
+                        className={selected ? "text-primary" : "text-muted-foreground"}
+                      />
+                      {option.title}
+                      {selected && (
+                        <CheckCircleIcon
+                          size={13}
+                          weight="fill"
+                          className="ml-auto text-primary"
+                        />
+                      )}
+                    </span>
+                    <span className="mt-1.5 block text-[10px] leading-5 text-muted-foreground">
+                      {option.body}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {form.mode === "live" ? (
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-amber-500/25 bg-amber-500/[0.06] px-3 py-2">
+                <p className="text-[10px] leading-5 text-amber-800">
+                  Course finished? Convert it to a recorded course so students
+                  can take the final exam and get certificates.
+                </p>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="lg"
+                  className="h-7 rounded-lg px-2.5 text-[10px]"
+                  onClick={() => {
+                    setField("mode", "recorded");
+                    toast.success(
+                      "Switched to Recorded. Save the course to publish the change.",
+                    );
+                  }}
+                >
+                  Mark course complete → Recorded
+                </Button>
+              </div>
+            ) : null}
           </section>
 
           {/* Lessons */}
@@ -1173,6 +1287,32 @@ export function CourseEditor({
               )}
             </div>
           </section>
+
+          <CertificateTemplateUploader
+            value={{
+              name: form.certificateTemplateName ?? null,
+              url: form.certificateTemplateUrl ?? null,
+              key: form.certificateTemplateKey ?? null,
+              placeholders: form.certificatePlaceholders ?? [],
+            }}
+            error={
+              showErrors ? validation.course.certificateTemplate : undefined
+            }
+            enabled={form.certificateEnabled}
+            previewValues={{
+              Course: form.title || "Course title",
+            }}
+            onChange={(value) => {
+              setForm((prev) => ({
+                ...prev,
+                certificateTemplateName: value.name,
+                certificateTemplateUrl: value.url,
+                certificateTemplateKey: value.key,
+                certificatePlaceholders: value.placeholders,
+              }));
+              setSaved(false);
+            }}
+          />
         </div>
 
         {/* Sidebar */}
@@ -1337,9 +1477,13 @@ export function CourseEditor({
               <div>
                 <p className="text-[11px] font-semibold">R2 uploads</p>
                 <p className="mt-1 text-[10px] leading-4 text-muted-foreground">
-                  Uploads use a Cloudflare R2 binding named <code>BUCKET</code>.
-                  Set <code>R2_PUBLIC_URL</code> to serve files from a public
-                  bucket domain, or they stream through <code>/api/files</code>.
+                  Uploads use the R2 credentials in your environment
+                  (<code>R2_ACCOUNT_ID</code>,{" "}
+                  <code>R2_ACCESS_KEY_ID</code>,{" "}
+                  <code>R2_SECRET_ACCESS_KEY</code>,{" "}
+                  <code>R2_BUCKET_NAME</code>). Set <code>R2_PUBLIC_URL</code>{" "}
+                  for direct file URLs, otherwise files stream through{" "}
+                  <code>/api/files</code>.
                 </p>
               </div>
             </div>

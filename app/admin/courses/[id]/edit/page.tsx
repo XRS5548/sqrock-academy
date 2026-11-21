@@ -29,6 +29,7 @@ export default async function EditCoursePage({
         price: course.price,
         isFree: course.isFree,
         status: course.status === "published" ? "published" : "draft",
+        mode: course.mode,
         durationMinutes: course.durationMinutes,
         instructorName: course.instructorName,
         instructorRole: course.instructorRole,
@@ -38,6 +39,10 @@ export default async function EditCoursePage({
         requirements: course.requirements,
         tags: course.tags,
         certificateEnabled: course.certificateEnabled,
+        certificateTemplateName: course.certificateTemplateName,
+        certificateTemplateUrl: course.certificateTemplateUrl,
+        certificateTemplateKey: course.certificateTemplateKey,
+        certificatePlaceholders: course.certificatePlaceholders,
         examPassPercent: course.examPassPercent,
         examLockHours: course.examLockHours,
         lessons: course.lessons.map((lesson) => ({

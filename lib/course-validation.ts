@@ -14,6 +14,7 @@ export type CourseFieldErrors = {
   durationMinutes?: string;
   lessons?: string;
   exam?: string;
+  certificateTemplate?: string;
   examPassPercent?: string;
   examLockHours?: string;
 };
@@ -30,6 +31,23 @@ export type QuestionFieldErrors = {
   options?: string;
   correctIndex?: string;
 };
+
+export const CERTIFICATE_REQUIRED_PLACEHOLDERS = [
+  "Name",
+  "Course",
+  "Certificate ID",
+  "Date",
+] as const;
+
+export const CERTIFICATE_OPTIONAL_PLACEHOLDERS = [
+  "Score",
+  "Instructor",
+  "Email",
+] as const;
+
+export function placeholderToken(value: string) {
+  return value.toLowerCase().replace(/[^a-z0-9]/g, "");
+}
 
 export type QuestionInput = {
   question: string;
@@ -218,6 +236,31 @@ export function validateCourse(
   const validateQuestions = requireExam
     ? input.certificateEnabled || questions.length > 0
     : false;
+
+  if (input.certificateEnabled) {
+    if (!input.certificateTemplateUrl?.trim()) {
+      course.certificateTemplate =
+        "Upload a certificate PPTX template for this course.";
+      push("Certificate template is required because certificates are enabled.");
+    } else {
+      const detected = new Set(
+        (input.certificatePlaceholders ?? []).map(placeholderToken),
+      );
+      const missing = CERTIFICATE_REQUIRED_PLACEHOLDERS.filter(
+        (placeholder) => !detected.has(placeholderToken(placeholder)),
+      );
+      if (missing.length > 0) {
+        course.certificateTemplate = `Certificate template is missing required placeholder${
+          missing.length === 1 ? "" : "s"
+        }: ${missing.map((item) => `[${item}]`).join(", ")}`;
+        push(
+          `Certificate template needs these placeholders: ${missing
+            .map((item) => `[${item}]`)
+            .join(", ")}.`,
+        );
+      }
+    }
+  }
 
   if (requireExam && input.certificateEnabled && questions.length === 0) {
     course.exam =

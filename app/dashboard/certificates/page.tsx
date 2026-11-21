@@ -7,6 +7,7 @@ import {
   ShareNetworkIcon,
 } from "@phosphor-icons/react/ssr";
 import { Button } from "@/components/ui/button";
+import { CertificateDownloadButton } from "@/components/certificate/certificate-download-button";
 import { getCertificates } from "@/lib/queries";
 import { requireUser } from "@/lib/session";
 
@@ -49,7 +50,15 @@ export default async function CertificatesPage() {
         </div>
       ) : (
         <div className="grid gap-4 md:grid-cols-2">
-          {certificates.map(({ certificate, course }) => (
+          {certificates.map(({ certificate, course }) => {
+            const issuedOn = new Date(
+              certificate.issuedAt,
+            ).toLocaleDateString("en-IN", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            });
+            return (
             <div
               key={certificate.id}
               className="overflow-hidden rounded-xl border border-border bg-background"
@@ -111,6 +120,27 @@ export default async function CertificatesPage() {
                   <ArrowSquareOutIcon data-icon="inline-start" />
                   View certificate
                 </Button>
+                {course.certificateTemplateUrl && (
+                  <CertificateDownloadButton
+                    templateUrl={
+                      course.certificateTemplateKey
+                        ? `/api/files/${course.certificateTemplateKey}`
+                        : course.certificateTemplateUrl
+                    }
+                    fileName={`certificate-${certificate.certificateNo}`}
+                    label="Download PDF"
+                    className="flex-1"
+                    values={{
+                      Name: user.name,
+                      Course: course.title,
+                      "Certificate ID": certificate.certificateNo,
+                      Date: issuedOn,
+                      Score: `${certificate.score}%`,
+                      Instructor: course.instructorName,
+                      Email: user.email,
+                    }}
+                  />
+                )}
                 <Button
                   variant="outline"
                   size="lg"
@@ -130,7 +160,8 @@ export default async function CertificatesPage() {
                 </Button>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       )}
 

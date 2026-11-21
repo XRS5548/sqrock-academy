@@ -5,6 +5,7 @@ import {
   CheckCircleIcon,
   CertificateIcon,
   ClockIcon,
+  LockKeyIcon,
   PlayCircleIcon,
   SealCheckIcon,
 } from "@phosphor-icons/react/ssr";
@@ -121,6 +122,11 @@ export default async function MyCoursesPage({
                       <p className="text-[9px] font-medium uppercase tracking-[0.1em] text-muted-foreground">
                         {course.category}
                       </p>
+                      {course.mode === "live" && (
+                        <Badge className="h-4 bg-amber-500/15 px-1.5 text-[8px] text-amber-700">
+                          Live
+                        </Badge>
+                      )}
                       {completed ? (
                         <Badge className="h-4 bg-emerald-600/10 px-1.5 text-[8px] text-emerald-700">
                           Completed
@@ -150,6 +156,11 @@ export default async function MyCoursesPage({
                         <CheckCircleIcon size={11} />
                         {progress}% done
                       </span>
+                      {course.mode === "live" && (
+                        <span className="inline-flex items-center gap-1 text-amber-700">
+                          New lessons added as the course progresses
+                        </span>
+                      )}
                     </div>
                     <div className="mt-3 h-1.5 max-w-md overflow-hidden rounded-full bg-muted">
                       <div
@@ -167,7 +178,7 @@ export default async function MyCoursesPage({
                       {completed ? "Review" : progress === 0 ? "Start" : "Continue"}
                       <ArrowRightIcon data-icon="inline-end" />
                     </Button>
-                    {progress === 100 && (
+                    {progress === 100 && course.mode !== "live" && (
                       <Button
                         variant="outline"
                         size="lg"
@@ -181,6 +192,12 @@ export default async function MyCoursesPage({
                         <SealCheckIcon data-icon="inline-start" />
                         Exam
                       </Button>
+                    )}
+                    {progress === 100 && course.mode === "live" && (
+                      <span className="inline-flex items-center gap-1 rounded-lg border border-dashed border-border px-3 text-[10px] text-muted-foreground">
+                        <LockKeyIcon size={12} />
+                        Exam opens when the course is complete
+                      </span>
                     )}
                     {completed && (
                       <Button

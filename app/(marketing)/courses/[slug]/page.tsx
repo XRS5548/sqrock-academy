@@ -4,6 +4,7 @@ import {
   ArrowLeftIcon,
   ArrowRightIcon,
   BookOpenIcon,
+  BroadcastIcon,
   CheckCircleIcon,
   ClockIcon,
   FileTextIcon,
@@ -95,6 +96,11 @@ export default async function CourseDetailPage({
                 <Badge variant="outline" className="h-5 rounded-full px-2.5 text-[10px]">
                   {course.level}
                 </Badge>
+                {course.mode === "live" && (
+                  <Badge className="h-5 rounded-full bg-amber-500 px-2.5 text-[10px] text-white">
+                    Live course
+                  </Badge>
+                )}
                 {course.isFree && (
                   <Badge className="h-5 rounded-full bg-emerald-600 px-2.5 text-[10px] text-white">
                     Free
@@ -127,6 +133,26 @@ export default async function CourseDetailPage({
                   <GlobeIcon size={13} /> {course.language}
                 </span>
               </div>
+
+              {course.mode === "live" && (
+                <div className="mt-5 flex items-start gap-3 rounded-lg border border-amber-500/25 bg-amber-500/[0.07] px-4 py-3">
+                  <BroadcastIcon
+                    size={16}
+                    weight="duotone"
+                    className="mt-0.5 shrink-0 text-amber-600"
+                  />
+                  <div>
+                    <p className="text-[11px] font-semibold text-amber-800">
+                      Live course — new lessons are added regularly
+                    </p>
+                    <p className="mt-0.5 text-[11px] leading-5 text-amber-800/80">
+                      You get access to everything published so far, and new
+                      lessons appear on this page as they are uploaded. The final
+                      exam opens once the course is completed by the instructor.
+                    </p>
+                  </div>
+                </div>
+              )}
 
               <div className="mt-6 flex items-center gap-3">
                 <span className="flex size-9 items-center justify-center rounded-full bg-primary/10 text-[11px] font-semibold text-primary">
@@ -161,7 +187,7 @@ export default async function CourseDetailPage({
                     </p>
                     {!course.isFree && course.price > 0 && (
                       <span className="text-[10px] text-muted-foreground">
-                        One-time payment
+                        Secure Razorpay checkout
                       </span>
                     )}
                   </div>
@@ -179,14 +205,23 @@ export default async function CourseDetailPage({
 
                   <div className="mt-5 space-y-2.5 border-t border-border pt-4 text-[11px] text-muted-foreground">
                     {[
-                      `${totalLessons} lessons · ${formatDuration(course.durationMinutes)} of video`,
+                      course.mode === "live"
+                        ? `${totalLessons} lessons so far · ${formatDuration(course.durationMinutes)} of video`
+                        : `${totalLessons} lessons · ${formatDuration(course.durationMinutes)} of video`,
                       `${attachmentCount} downloadable resources`,
+                      course.mode === "live"
+                        ? "New lessons added as the course progresses"
+                        : null,
                       course.certificateEnabled
-                        ? `Certificate after final exam (${course.examPassPercent}% pass)`
+                        ? course.mode === "live"
+                          ? `Certificate after the course is completed (${course.examPassPercent}% pass)`
+                          : `Certificate after final exam (${course.examPassPercent}% pass)`
                         : "No certificate for this course",
                       "Lifetime access on web and mobile",
                       "Doubt support by email",
-                    ].map((item) => (
+                    ]
+                      .filter((item): item is string => Boolean(item))
+                      .map((item) => (
                       <p key={item} className="flex items-start gap-2">
                         <CheckCircleIcon
                           size={13}
@@ -350,10 +385,9 @@ export default async function CourseDetailPage({
                       Finish with an exam-verified certificate
                     </h2>
                     <p className="mt-1.5 text-xs leading-6 text-muted-foreground">
-                      After the last lesson, take the final exam written by the
-                      course team. Score {course.examPassPercent}% or above to
-                      unlock your certificate. If you miss the mark, you can
-                      retry after {course.examLockHours} hours.
+                      {course.mode === "live"
+                        ? `This course is still live. Once the instructor finishes uploading every lesson, the final exam opens here. Score ${course.examPassPercent}% or above to unlock your certificate, with a ${course.examLockHours}h retry lock if you miss the mark.`
+                        : `After the last lesson, take the final exam written by the course team. Score ${course.examPassPercent}% or above to unlock your certificate. If you miss the mark, you can retry after ${course.examLockHours} hours.`}
                     </p>
                     <div className="mt-3 flex flex-wrap gap-4 text-[10px] text-muted-foreground">
                       <span className="inline-flex items-center gap-1">

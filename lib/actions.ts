@@ -14,11 +14,31 @@ import {
   job,
   lesson,
   lessonProgress,
+  pptTemplate,
   user,
 } from "@/db/schema";
 import { getCurrentUser } from "@/lib/session";
+import { deleteObject } from "@/lib/r2";
 import { toRichText } from "@/lib/rich-text";
 import { validateCourse } from "@/lib/course-validation";
+import {
+  captureRazorpayPayment,
+  createRazorpayOrder,
+  fetchRazorpayOrder,
+  fetchRazorpayPayment,
+  getRazorpayConfig,
+  verifyRazorpaySignature,
+} from "@/lib/razorpay";
+
+type PaymentOrderResult = ActionResult & {
+  orderId?: string;
+  amount?: number;
+  currency?: string;
+  keyId?: string;
+  courseTitle?: string;
+  userName?: string;
+  userEmail?: string;
+};
 
 type ActionResult = {
   ok: boolean;
@@ -44,6 +64,32 @@ function slugify(value: string) {
 
 /* ----------------------------- Learning ----------------------------- */
 
+async function ensureEnrollment(userId: string, courseId: string) {
+  const [existing] = await db
+    .select()
+    .from(enrollment)
+    .where(
+      and(
+        eq(enrollment.userId, userId),
+        eq(enrollment.courseId, courseId),
+      ),
+    )
+    .limit(1);
+
+  if (existing) return false;
+
+  await db.insert(enrollment).values({
+    userId,
+    courseId,
+    status: "active",
+  });
+  await db
+    .update(course)
+    .set({ enrollments: sql`${course.enrollments} + 1` })
+    .where(eq(course.id, courseId));
+  return true;
+}
+
 export async function enrollInCourse(courseId: string): Promise<ActionResult> {
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "Please log in to enrol." };
@@ -65,6 +111,45 @@ export async function enrollInCourse(courseId: string): Promise<ActionResult> {
       };
     }
 
+    await ensureEnrollment(user.id, courseId);
+
+    revalidatePath(`/courses/${found.slug}`);
+    revalidatePath("/dashboard");
+    return { ok: true, slug: found.slug, message: "You're enrolled!" };
+  } catch {
+    return {
+      ok: false,
+      error: "Could not enrol right now. Please try again.",
+    };
+  }
+}
+
+export async function createCoursePaymentOrder(
+  courseId: string,
+): Promise<PaymentOrderResult> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "Please log in to enrol." };
+
+  const config = getRazorpayConfig();
+  if (!config) {
+    return {
+      ok: false,
+      error:
+        "Online payments are not configured yet. Add Razorpay keys to the environment.",
+    };
+  }
+
+  try {
+    const [found] = await db
+      .select()
+      .from(course)
+      .where(eq(course.id, courseId))
+      .limit(1);
+    if (!found) return { ok: false, error: "Course not found." };
+    if (found.isFree || Number(found.price) <= 0) {
+      return { ok: false, error: "This course is free." };
+    }
+
     const [existing] = await db
       .select()
       .from(enrollment)
@@ -75,26 +160,129 @@ export async function enrollInCourse(courseId: string): Promise<ActionResult> {
         ),
       )
       .limit(1);
-
-    if (!existing) {
-      await db.insert(enrollment).values({
-        userId: user.id,
-        courseId,
-        status: "active",
-      });
-      await db
-        .update(course)
-        .set({ enrollments: sql`${course.enrollments} + 1` })
-        .where(eq(course.id, courseId));
+    if (existing) {
+      return {
+        ok: false,
+        error: "You are already enrolled in this course.",
+        slug: found.slug,
+      };
     }
 
-    revalidatePath(`/courses/${found.slug}`);
-    revalidatePath("/dashboard");
-    return { ok: true, slug: found.slug, message: "You're enrolled!" };
-  } catch {
+    const amount = Math.round(Number(found.price) * 100);
+    if (!Number.isFinite(amount) || amount < 100) {
+      return { ok: false, error: "This course price is invalid." };
+    }
+
+    const order = await createRazorpayOrder({
+      amount,
+      currency: "INR",
+      receipt: `course_${found.id.slice(0, 8)}_${Date.now()}`,
+      notes: {
+        courseId: found.id,
+        courseSlug: found.slug,
+        userId: user.id,
+      },
+    });
+
+    return {
+      ok: true,
+      orderId: order.id,
+      amount: order.amount,
+      currency: order.currency,
+      keyId: config.keyId,
+      courseTitle: found.title,
+      userName: user.name,
+      userEmail: user.email,
+    };
+  } catch (error) {
     return {
       ok: false,
-      error: "Could not enrol right now. Please try again.",
+      error:
+        error instanceof Error
+          ? error.message
+          : "Could not start the payment. Please try again.",
+    };
+  }
+}
+
+export async function verifyCoursePayment(input: {
+  courseId: string;
+  orderId: string;
+  paymentId: string;
+  signature: string;
+}): Promise<ActionResult> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "Please log in to enrol." };
+
+  const signatureValid = await verifyRazorpaySignature({
+    orderId: input.orderId,
+    paymentId: input.paymentId,
+    signature: input.signature,
+  }).catch(() => false);
+  if (!signatureValid) {
+    return { ok: false, error: "Payment verification failed." };
+  }
+
+  try {
+    const [found] = await db
+      .select()
+      .from(course)
+      .where(eq(course.id, input.courseId))
+      .limit(1);
+    if (!found) return { ok: false, error: "Course not found." };
+
+    const order = await fetchRazorpayOrder(input.orderId);
+    if (
+      order.notes?.courseId !== found.id ||
+      order.notes?.userId !== user.id
+    ) {
+      return { ok: false, error: "Payment does not match this course." };
+    }
+
+    const expectedAmount = Math.round(Number(found.price) * 100);
+    if (
+      Number(order.amount) !== expectedAmount ||
+      order.currency !== "INR"
+    ) {
+      return { ok: false, error: "Payment amount does not match the course price." };
+    }
+
+    const payment = await fetchRazorpayPayment(input.paymentId);
+    if (
+      payment.order_id !== order.id ||
+      Number(payment.amount) !== expectedAmount
+    ) {
+      return { ok: false, error: "Payment does not match this order." };
+    }
+
+    if (payment.status === "authorized") {
+      await captureRazorpayPayment(
+        payment.id,
+        Number(payment.amount),
+        payment.currency,
+      );
+    } else if (payment.status !== "captured") {
+      return {
+        ok: false,
+        error: `Payment is ${payment.status}. Please complete the payment and try again.`,
+      };
+    }
+
+    await ensureEnrollment(user.id, found.id);
+    revalidatePath(`/courses/${found.slug}`);
+    revalidatePath("/dashboard");
+    return {
+      ok: true,
+      slug: found.slug,
+      message: "Payment successful — you're enrolled!",
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      error:
+        error instanceof Error
+          ? error.message
+          : "Could not verify the payment.",
     };
   }
 }
@@ -373,6 +561,95 @@ export async function deleteJob(jobId: string): Promise<ActionResult> {
 
 /* ------------------------------- Admin ------------------------------ */
 
+export async function createPptTemplate(input: {
+  name: string;
+  url: string;
+  key?: string | null;
+  placeholders: string[];
+  size?: number;
+}): Promise<ActionResult> {
+  const user = await getCurrentUser();
+  if (user?.role !== "admin") return { ok: false, error: "Not authorised." };
+
+  const name = input.name.trim();
+  const url = input.url.trim();
+  if (!name || !url) {
+    return { ok: false, error: "Template name and file URL are required." };
+  }
+
+  try {
+    const placeholders = [
+      ...new Set(
+        input.placeholders.map((item) => item.trim()).filter(Boolean),
+      ),
+    ];
+    const [created] = await db
+      .insert(pptTemplate)
+      .values({
+        name,
+        fileUrl: url,
+        fileKey: input.key ?? null,
+        placeholders,
+        fileSize:
+          input.size && Number.isFinite(input.size) ? input.size : null,
+        createdBy: user.id,
+      })
+      .returning({ id: pptTemplate.id });
+
+    revalidatePath("/admin/ppt");
+    return { ok: true, id: created.id, message: "Template saved." };
+  } catch (error) {
+    console.error("createPptTemplate failed", error);
+    const message = error instanceof Error ? error.message : "";
+    if (/relation .*ppt_template.* does not exist/i.test(message)) {
+      return {
+        ok: false,
+        error:
+          "The ppt_template table is missing. Run `npm run db:push` to apply the new schema, then try again.",
+      };
+    }
+    if (/ECONNREFUSED|ENOTFOUND|password authentication|connect/i.test(message)) {
+      return {
+        ok: false,
+        error:
+          "Could not reach the database. Check DATABASE_URL and try again.",
+      };
+    }
+    return {
+      ok: false,
+      error:
+        process.env.NODE_ENV !== "production"
+          ? `Could not save the template details: ${message || "unknown database error"}`
+          : "Could not save the template details.",
+    };
+  }
+}
+
+export async function deletePptTemplate(id: string): Promise<ActionResult> {
+  const user = await getCurrentUser();
+  if (user?.role !== "admin") return { ok: false, error: "Not authorised." };
+
+  try {
+    const [row] = await db
+      .select()
+      .from(pptTemplate)
+      .where(eq(pptTemplate.id, id))
+      .limit(1);
+    if (!row) return { ok: false, error: "Template not found." };
+
+    await db.delete(pptTemplate).where(eq(pptTemplate.id, id));
+    try {
+      await deleteObject(row.fileKey);
+    } catch {
+      // Keep the database entry removed even if storage cleanup fails.
+    }
+    revalidatePath("/admin/ppt");
+    return { ok: true, message: "Template deleted." };
+  } catch {
+    return { ok: false, error: "Could not delete the template." };
+  }
+}
+
 export type LessonInput = {
   id?: string;
   title: string;
@@ -397,6 +674,7 @@ export type CourseInput = {
   price: number;
   isFree: boolean;
   status: "draft" | "published";
+  mode: "live" | "recorded";
   durationMinutes: number;
   instructorName: string;
   instructorRole: string;
@@ -406,6 +684,10 @@ export type CourseInput = {
   requirements: string[];
   tags: string[];
   certificateEnabled: boolean;
+  certificateTemplateName: string | null;
+  certificateTemplateUrl: string | null;
+  certificateTemplateKey: string | null;
+  certificatePlaceholders: string[];
   examPassPercent: number;
   examLockHours: number;
   lessons: LessonInput[];
@@ -455,6 +737,7 @@ export async function saveCourse(input: CourseInput): Promise<ActionResult> {
       price: input.isFree ? 0 : Number(input.price) || 0,
       isFree: input.isFree,
       status: input.status,
+      mode: input.mode === "live" ? "live" : "recorded",
       durationMinutes: lessonMinutes || Number(input.durationMinutes) || 0,
       instructorName: input.instructorName || "Sqrock Academy",
       instructorRole: input.instructorRole || "Instructor",
@@ -464,6 +747,10 @@ export async function saveCourse(input: CourseInput): Promise<ActionResult> {
       requirements: input.requirements,
       tags: input.tags,
       certificateEnabled: input.certificateEnabled,
+      certificateTemplateName: input.certificateTemplateName || null,
+      certificateTemplateUrl: input.certificateTemplateUrl || null,
+      certificateTemplateKey: input.certificateTemplateKey || null,
+      certificatePlaceholders: input.certificatePlaceholders ?? [],
       examPassPercent: Number(input.examPassPercent) || 70,
       examLockHours: Number(input.examLockHours) || 48,
       createdBy: user.id,

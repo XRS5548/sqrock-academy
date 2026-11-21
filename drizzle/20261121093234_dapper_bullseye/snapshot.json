@@ -1,0 +1,47 @@
+{
+  "type": "diff",
+  "version": "9",
+  "dialect": "postgres",
+  "id": "8d33fa77-e4ce-43a7-b45e-171ebe6a8f11",
+  "prevIds": [
+    "28a7cb61-efe3-48ac-ba28-8402fdb7664b"
+  ],
+  "footprints": [
+    {
+      "statementType": "add_column",
+      "statementTarget": [
+        "column",
+        "public",
+        "course",
+        "mode"
+      ],
+      "writes": [
+        "s|col|public.course.mode",
+        "n|col|public.course.mode",
+        "e|col|public.course.mode"
+      ],
+      "reads": [
+        "n|tbl|public.course",
+        "n|sch|public"
+      ]
+    }
+  ],
+  "deltas": [
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "course",
+        "name": "mode",
+        "type": "text",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "'recorded'",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    }
+  ]
+}

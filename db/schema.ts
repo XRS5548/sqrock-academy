@@ -107,11 +107,19 @@ export const course = pgTable(
     price: integer("price").notNull().default(0), // in INR
     isFree: boolean("is_free").notNull().default(false),
     status: text("status").notNull().default("draft"), // draft | published
+    // live: lessons are uploaded as the batch runs; recorded: full course is available.
+    mode: text("mode").notNull().default("recorded"), // live | recorded
     durationMinutes: integer("duration_minutes").notNull().default(0),
     instructorName: text("instructor_name").notNull().default("Sqrock Academy"),
     instructorRole: text("instructor_role").default("Lead Instructor"),
     instructorImage: text("instructor_image"),
     certificateEnabled: boolean("certificate_enabled").notNull().default(true),
+    certificateTemplateName: text("certificate_template_name"),
+    certificateTemplateUrl: text("certificate_template_url"),
+    certificateTemplateKey: text("certificate_template_key"),
+    certificatePlaceholders: jsonb("certificate_placeholders")
+      .$type<string[]>()
+      .default([]),
     examPassPercent: integer("exam_pass_percent").notNull().default(70),
     examLockHours: integer("exam_lock_hours").notNull().default(48),
     outcomes: jsonb("outcomes").$type<string[]>().default([]),
@@ -354,6 +362,31 @@ export const job = pgTable(
   ],
 );
 
+/* ---------------------------- PPT templates ------------------------- */
+
+export const pptTemplate = pgTable(
+  "ppt_template",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    name: text("name").notNull(),
+    fileUrl: text("file_url").notNull(),
+    fileKey: text("file_key"),
+    placeholders: jsonb("placeholders").$type<string[]>().default([]),
+    fileSize: integer("file_size"),
+    createdBy: text("created_by").references(() => user.id, {
+      onDelete: "set null",
+    }),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+      .defaultNow()
+      .$onUpdate(() => /* @__PURE__ */ new Date())
+      .notNull(),
+  },
+  (table) => [index("ppt_template_created_idx").on(table.createdAt)],
+);
+
 /* ---------------------------- Relations ----------------------------- */
 
 export const userRelations = relations(user, ({ many }) => ({
@@ -414,4 +447,11 @@ export const certificateRelations = relations(certificate, ({ one }) => ({
 
 export const jobRelations = relations(job, ({ one }) => ({
   author: one(user, { fields: [job.postedBy], references: [user.id] }),
+}));
+
+export const pptTemplateRelations = relations(pptTemplate, ({ one }) => ({
+  author: one(user, {
+    fields: [pptTemplate.createdBy],
+    references: [user.id],
+  }),
 }));

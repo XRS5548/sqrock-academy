@@ -11,6 +11,7 @@ import {
   job,
   lesson,
   lessonProgress,
+  pptTemplate,
   user,
 } from "@/db/schema";
 import { demoJobs } from "@/lib/demo-data";
@@ -43,11 +44,16 @@ function mapCourse(
     price: row.price,
     isFree: row.isFree,
     status: row.status,
+    mode: row.mode === "live" ? "live" : "recorded",
     durationMinutes: row.durationMinutes,
     instructorName: row.instructorName,
     instructorRole: row.instructorRole ?? "Instructor",
     instructorImage: row.instructorImage,
     certificateEnabled: row.certificateEnabled,
+    certificateTemplateName: row.certificateTemplateName,
+    certificateTemplateUrl: row.certificateTemplateUrl,
+    certificateTemplateKey: row.certificateTemplateKey,
+    certificatePlaceholders: row.certificatePlaceholders ?? [],
     examPassPercent: row.examPassPercent,
     examLockHours: row.examLockHours,
     outcomes: row.outcomes ?? [],
@@ -563,5 +569,17 @@ export async function getCertificateForCourse(
     return row ?? null;
   } catch {
     return null;
+  }
+}
+
+export async function getPptTemplates() {
+  try {
+    return await db
+      .select()
+      .from(pptTemplate)
+      .orderBy(desc(pptTemplate.createdAt));
+  } catch (error) {
+    console.error("getPptTemplates failed", error);
+    return [];
   }
 }

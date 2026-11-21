@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import {
   ArrowLeftIcon,
+  BroadcastIcon,
   CheckCircleIcon,
   ClockIcon,
   LockKeyIcon,
@@ -38,6 +39,34 @@ export default async function ExamPage({
     getCourseProgress(user.id, course.id),
     getCertificateForCourse(user.id, course.id),
   ]);
+
+  if (course.mode === "live") {
+    return (
+      <div className="mx-auto max-w-xl rounded-xl border border-border bg-background p-8 text-center">
+        <span className="mx-auto flex size-14 items-center justify-center rounded-full bg-amber-500/10 text-amber-600">
+          <BroadcastIcon size={28} weight="duotone" />
+        </span>
+        <p className="mt-4 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+          {course.title}
+        </p>
+        <h1 className="mt-1 font-heading text-xl font-semibold">
+          The course is still live
+        </h1>
+        <p className="mt-2 text-xs leading-6 text-muted-foreground">
+          New lessons are still being added to this course. The final exam will
+          unlock automatically once the instructor finishes the course — your
+          progress and any existing certificate stay exactly as they are.
+        </p>
+        <Button
+          className="mt-5"
+          size="lg"
+          render={<Link href={`/dashboard/courses/${course.slug}`} />}
+        >
+          Back to course
+        </Button>
+      </div>
+    );
+  }
 
   if (!exam) {
     return (
