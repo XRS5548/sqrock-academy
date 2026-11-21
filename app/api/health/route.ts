@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 import { sql } from "drizzle-orm";
-import { db, hasDatabase } from "@/db";
+import { db } from "@/db";
 import { envValue } from "@/lib/runtime-env";
 import { isStorageConfigured } from "@/lib/r2";
 import { isRazorpayConfigured } from "@/lib/razorpay";
+
+const hasDatabase = Boolean(process.env.DATABASE_URL);
 
 export async function GET() {
   let databaseReachable = false;
